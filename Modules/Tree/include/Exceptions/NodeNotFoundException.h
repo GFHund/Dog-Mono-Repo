@@ -6,6 +6,7 @@
 namespace DogGE{
     namespace Tree{
         class NodeNotFoundException:public std::exception{
+            public:
             virtual const char* what() const throw();
         };
     }

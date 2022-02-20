@@ -6,6 +6,7 @@
 namespace DogGE{
     namespace Tree{
         class NodeHasNoDataBagException:public std::exception{
+            public:
             virtual const char* what() const throw();
         };
     }

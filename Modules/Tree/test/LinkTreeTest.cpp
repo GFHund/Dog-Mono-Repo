@@ -14,3 +14,11 @@ TEST(LinkTree,addAndGetNode){
     int treeData = tree.getNodeData(nodeId);
     EXPECT_EQ(treeData,123);
 }
+TEST(LinkTree,GetNonExistentNode){
+    DogGE::Tree::LinkTree<int> tree;
+    EXPECT_THROW(tree.getNodeData(123),DogGE::Tree::NodeNotFoundException);
+}
+TEST(LinkTree,GetRootNode){
+    DogGE::Tree::LinkTree<int> tree;
+    EXPECT_THROW(tree.getNodeData(0),DogGE::Tree::NodeHasNoDataBagException);
+}
