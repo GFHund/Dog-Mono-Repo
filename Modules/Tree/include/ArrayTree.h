@@ -17,12 +17,16 @@ namespace DogGE{
             ArrayTreeNode* mRoot;
             std::vector<ArrayTreeDataNode<T>*> mTree;
 
+            protected:
+            ArrayTreeDataNode<T>* getTreeNodeFromId(unsigned int id);
+
             public:
             ArrayTree();
             ~ArrayTree();
             unsigned int addNode(T newNode,unsigned int parentNodeId) override;
             unsigned int getRootId() override;
             T getNodeData(unsigned int id);
+            std::vector<T> getChildren(unsigned int parentId);
         };
        
        template<class T>
@@ -67,6 +71,26 @@ namespace DogGE{
                 }
             }
             throw NodeNotFoundException();
+        }
+        template<class T>
+        ArrayTreeDataNode<T>* ArrayTree<T>::getTreeNodeFromId(unsigned int id){
+            for(auto node:mTree){
+                if(node->getId() == id){
+                    return node;
+                }
+            }
+            throw NodeNotFoundException();
+        }
+        template<class T>
+        std::vector<T> ArrayTree<T>::getChildren(unsigned int parentId){
+            std::vector<T> ret;
+            ArrayTreeDataNode<T>* parent = getTreeNodeFromId(parentId);
+            std::vector<unsigned int> childrenIds = parent->getChildrenIds();
+            for(auto childId:childrenIds){
+                ArrayTreeDataNode<T>* child = getTreeNodeFromId(childId);
+                ret.push_back(child->getData());
+            }
+            return ret;
         }
     }
      

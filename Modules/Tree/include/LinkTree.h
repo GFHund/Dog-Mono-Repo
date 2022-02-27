@@ -27,6 +27,7 @@ namespace DogGE{
             unsigned int addNode(T newNode,unsigned int parentNodeId) override;
             unsigned int getRootId() override;
             T getNodeData(unsigned int id);
+            std::vector<T> getChildren(unsigned int id) override;
         };
 
         template<class T>
@@ -87,6 +88,18 @@ namespace DogGE{
             LinkTreeDataNode<T>* node = this->getTreeNodeFromId(id);
             return node->getData();
             
+        }
+
+        template<class T>
+        std::vector<T> LinkTree<T>::getChildren(unsigned int id){
+            std::vector<T> ret;
+            LinkTreeDataNode<T>* parent = getTreeNodeFromId(id);
+            std::vector<unsigned int> childrenIds = parent->getChildrenIds();
+            for(auto childId:childrenIds){
+                LinkTreeDataNode<T>* child = getTreeNodeFromId(childId);
+                ret.push_back(child->getData());
+            }
+            return ret;
         }
     }
     
