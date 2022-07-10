@@ -11,6 +11,7 @@ SET(F1GameParserGenerator_SOURCE
     src/Packages.cpp
     src/Fields.cpp
     src/F1SpecBuilder.cpp
+    src/F1SpecValidator.cpp
     src/Generators/AbstractGenerator.cpp
     src/Generators/SourceGenerator.cpp
     src/Generators/GenerateDataClassHeader.cpp
@@ -53,6 +54,8 @@ configure_file(template/F1DataEntityTemplate.h template/F1DataEntityTemplate.h C
 configure_file(template/F1DataEntityTemplate.cpp template/F1DataEntityTemplate.cpp COPYONLY)
 configure_file(template/ExceptionTemplate.h template/ExceptionTemplate.h COPYONLY)
 configure_file(template/ExceptionTemplate.cpp template/ExceptionTemplate.cpp COPYONLY)
+configure_file(template/ConverterTemplate.h template/ConverterTemplate.h COPYONLY)
+configure_file(template/ConverterTemplate.cpp template/ConverterTemplate.cpp COPYONLY)
 
 add_executable(F1GameParserGenerator ${F1GameParserGenerator_SOURCE})
 add_library(F1GameParserGeneratorLib STATIC ${F1GameParserGeneratorTest_SOURCE})

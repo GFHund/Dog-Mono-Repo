@@ -11,6 +11,7 @@ namespace DogGE{
             protected:
             static F1Spec getSpecification(nlohmann::json j);
             static nlohmann::json readJson(std::string path);
+            
             public:
             static F1Spec build(std::string game);
             

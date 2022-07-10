@@ -92,6 +92,7 @@ namespace DogGE{
                     setterPrototype += "void set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                         "("+functionDataType+" "+field.getName()+");\n";
                 }
+                constructorPrototype += f1ClassName+"();\n"+f1ClassName+"(char* rawData,int size,int offset=0);\n";
 
                 headerData.set("DEFINE_NAME","__F1_DATA_ENTITY__");
                 headerData.set("NAMESPACE_NAME",namespaceStr);

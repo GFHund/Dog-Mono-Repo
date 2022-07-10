@@ -152,7 +152,7 @@ namespace DogGE{
                 std::string getInt64Map = "";
                 std::string getRealMap = "";
                 std::string getRawMap = "";
-                constructorFunction += f1Class+"::"+f1Class+"(){}\n"+f1Class+"::"+f1Class+"(char* rawData,int size){\n";
+                constructorFunction += f1Class+"::"+f1Class+"(){}\n"+f1Class+"::"+f1Class+"(char* rawData,int size,int offset){\n";
 
                 std::vector<Fields> fields = package.getFields();
                 int offset = 0;
@@ -160,11 +160,18 @@ namespace DogGE{
                     std::string dataType = this->getDataType(field);
                     std::string functionDataType = this->getDataType(field,true);
                     
-                    constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(*(("+dataType+"*)(rawData+" + std::to_string(offset) + ")));\n";
-                    //Condition for validation should be in the spec file but at first i write this it as a constant
-                    if(field.getName().compare("packetFormat") == 0){
-                        constructorFunction += "if(this->getPacketFormat() != "+spec.getName()+"){throw ValidationException();}\n";
+                    if(!this->isClass(field)){
+                        constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(*(("+dataType+"*)(rawData+" + std::to_string(offset) + ")));\n";
+                        //Condition for validation should be in the spec file but at first i write this it as a constant
+                        if(field.getName().compare("packetFormat") == 0){
+                            constructorFunction += "if(this->getPacketFormat() != "+spec.getName()+"){throw ValidationException();}\n";
+                        }
+                        offset += field.getSize();
+                    } else {
+                        constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                            "("+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(rawData,size,"+std::to_string(offset)+"));\n";
                     }
+                    
                     getterFunction += functionDataType+" "+f1Class+"::"+
                     "get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                     "(){return this->"+field.getName()+";}\n";
@@ -173,7 +180,7 @@ namespace DogGE{
                     "set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                     "("+functionDataType+" "+field.getName()+")"+
                     "{this->"+field.getName()+" = "+field.getName()+";}\n";
-                    offset += field.getSize();
+                    
 
                     std::string dbDataType = this->getDatabaseType(field);
                     tableFields += ",`"+field.getName()+"` "+dbDataType;
@@ -238,7 +245,7 @@ namespace DogGE{
         }
 
         std::vector<std::string> GenerateDataEntitySource::generateSource(F1Spec spec,std::string outputFolder){
-            std::vector<std::string> ret;
+            std::vector<std::string> ret = this->generatePackagesEntity(spec,outputFolder);
             ret.push_back(this->generateRecordEntity(spec,outputFolder));
             return ret;
         }

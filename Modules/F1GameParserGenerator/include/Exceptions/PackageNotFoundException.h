@@ -13,6 +13,7 @@ namespace DogGE{
             public:
             PackageNotFoundException(std::string packageName);
             virtual const char* what() const throw();
+            std::string getPackageName();
         };
     }
 }

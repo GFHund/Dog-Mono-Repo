@@ -13,12 +13,16 @@ namespace DogGE{
             private:
             std::string mName;
             std::vector<Fields> mFields;
+            int mSize;
             public:
             void setName(std::string name);
             std::string getName();
 
             void addField(Fields newField);
             std::vector<Fields> getFields();
+
+            int getSize();
+            void setSize(int size);
         };
     }
 }

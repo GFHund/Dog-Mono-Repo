@@ -9,7 +9,9 @@
 #include <Packages.h>
 #include <Fields.h>
 #include <F1SpecBuilder.h>
+#include <F1SpecValidator.h>
 #include <Exceptions/FileNotFoundException.h>
+#include <Exceptions/PackageNotFoundException.h>
 
 #include <Generators/GenerateDataClassHeader.h>
 #include <Generators/GenerateDataClassSource.h>
@@ -33,6 +35,10 @@ namespace DogGE{
         void ParserGenerator::generate(){
             this->generateDirStructure();
             F1Spec spec = F1SpecBuilder::build(this->mGame);
+
+            if(!F1SpecValidator::validateSpecification(spec)){
+                return;
+            }
             //this->generateF1DataClasses(spec);
             GenerateDataClassHeader DataHeader;
             DataHeader.generateSource(spec,this->mOutput);

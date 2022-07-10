@@ -1,6 +1,7 @@
 #include <F1SpecBuilder.h>
 #include <iostream>
 #include <fstream>
+#include <Exceptions/PackageNotFoundException.h>
 namespace DogGE{
     namespace F1GameParserGenerator{
         F1Spec F1SpecBuilder::build(std::string game){
@@ -17,6 +18,7 @@ namespace DogGE{
             ifs >> j;
             return j;
         }
+        
 
         F1Spec F1SpecBuilder::getSpecification(nlohmann::json j){
             F1Spec spec;
@@ -37,6 +39,10 @@ namespace DogGE{
                         Packages package;
                         package.setName(packageName);
                         auto iterFields = packageValue.find("fields");
+                        auto iterSize = packageValue.find("size");
+                        if(iterSize != packageValue.end()){
+                            package.setSize(*iterSize);
+                        }
                         if(iterFields != packageValue.end()){
                             for(auto fieldIter:*iterFields){
                                 Fields field;

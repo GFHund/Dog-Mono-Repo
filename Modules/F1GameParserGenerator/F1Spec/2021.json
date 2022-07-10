@@ -16,7 +16,7 @@
     "headerName":"Header",
     "packages":{
         "Header":{
-            "size":21,
+            "size":24,
             "fields":[
                 {"name":"packetFormat","type":"uint","size":2},
                 {"name":"gameMajorVersion","type":"uint","size":1},
@@ -31,7 +31,7 @@
             ]
         },
         "CarMotionData":{
-            "size":1,
+            "size":60,
             "fields":[
                 {"name":"worldPositionX","type":"float","size":4},
                 {"name":"worldPositionY","type":"float","size":4},
@@ -76,14 +76,14 @@
             ]
         },
         "MarshalZone":{
-            "size":1,
+            "size":5,
             "fields":[
                 {"name":"zoneStart","type":"float","size":4},
                 {"name":"zoneFlag","type":"int","size":1}
             ]
         },
         "WeatherForecastSample":{
-            "size":1,
+            "size":8,
             "fields":[
                 {"name":"sessionType","type":"uint","size":1},
                 {"name":"timeOffset","type":"uint","size":1},
@@ -119,7 +119,7 @@
                 {"name":"safetyCarStatus","type":"uint","size":1},
                 {"name":"networkGame","type":"uint","size":1},
                 {"name":"numWeatherForecastSamples","type":"uint","size":1},
-                {"name":"weatherForecastSamples","type":"array","itemType":"WeatherForecastSample"},
+                {"name":"weatherForecastSamples","type":"array","size":56,"itemType":"WeatherForecastSample"},
                 {"name":"forecastAccuracy","type":"uint","size":1},
                 {"name":"aiDifficulty","type":"uint","size":1},
                 {"name":"seasonLinkIdentifier","type":"uint","size":4},
@@ -140,12 +140,12 @@
             ]
         },
         "LapData":{
-            "size":1,
+            "size":43,
             "fields":[
                 {"name":"lastLapTimeInMs","type":"uint","size":4},
                 {"name":"currentLapTimeInMs","type":"uint","size":4},
-                {"name":"sector1TimeInMs","type":"uint","size":4},
-                {"name":"sector2TimeInMs","type":"uint","size":4},
+                {"name":"sector1TimeInMs","type":"uint","size":2},
+                {"name":"sector2TimeInMs","type":"uint","size":2},
                 {"name":"lapDistance","type":"float","size":4},
                 {"name":"totalDistance","type":"float","size":4},
                 {"name":"safetyCarDelta","type":"float","size":4},
@@ -176,7 +176,7 @@
             ]
         },
         "ParticipantsData":{
-            "size":1,
+            "size":56,
             "fields":[
                 {"name":"aiControlled","type":"uint","size":1},
                 {"name":"driverId","type":"uint","size":1},
@@ -185,7 +185,7 @@
                 {"name":"myTeam","type":"uint","size":1},
                 {"name":"raceNumer","type":"uint","size":1},
                 {"name":"nationality","type":"uint","size":1},
-                {"name":"name","type":"array","size":48,"itemType":"char"},
+                {"name":"name","type":"array","size":48,"itemType":"char","itemTypeSize":1},
                 {"name":"yourTelemetry","type":"uint","size":1}
             ]
         },
@@ -194,11 +194,11 @@
             "fields":[
                 {"name":"header","type":"Header"},
                 {"name":"numActiveCars","type":"uint","size":1},
-                {"name":"lapData","type":"array","size":22,"itemType":"LapData"}
+                {"name":"participants","type":"array","size":22,"itemType":"ParticipantsData"}
             ]
         },
         "CarSetupData":{
-            "size":1,
+            "size":49,
             "fields":[
                 {"name":"frontWing","type":"uint","size":1},
                 {"name":"rearWing","type":"uint","size":1},
@@ -232,7 +232,7 @@
             ]
         },
         "CarTelemetryData":{
-            "size":1,
+            "size":60,
             "fields":[
                 {"name":"speed","type":"uint","size":2},
                 {"name":"throttle","type":"float","size":4},
@@ -278,7 +278,7 @@
             ]
         },
         "CarStatusData":{
-            "size":1,
+            "size":47,
             "fields":[
                 {"name":"tractionControl","type":"uint","size":1},
                 {"name":"antiLockBrakes","type":"uint","size":1},
@@ -313,7 +313,7 @@
             ]
         },
         "FinalClassificationData":{
-            "size":1,
+            "size":37,
             "fields":[
                 {"name":"position","type":"uint","size":1},
                 {"name":"numLaps","type":"uint","size":1},
@@ -339,7 +339,7 @@
             ]
         },
         "LobbyInfoData":{
-            "size":1,
+            "size":53,
             "fields":[
                 {"name":"aiControlled","type":"uint","size":1},
                 {"name":"teamId","type":"uint","size":1},
@@ -358,7 +358,7 @@
             ]
         },
         "CarDamageData":{
-            "size":1,
+            "size":39,
             "fields":[
                 {"name":"tyresWearRL","type":"float","size":4},
                 {"name":"tyresWearRR","type":"float","size":4},
@@ -397,7 +397,7 @@
             ]
         },
         "LapHistoryData":{
-            "size":1,
+            "size":11,
             "fields":[
                 {"name":"lapTimeInMS","type":"uint","size":4},
                 {"name":"sector1TimeInMs","type":"uint","size":2},
@@ -407,7 +407,7 @@
             ]
         },
         "TyreStintHistoryData":{
-            "size":1,
+            "size":3,
             "fields":[
                 {"name":"endLap","type":"uint","size":1},
                 {"name":"tyreActualCompound","type":"uint","size":1},

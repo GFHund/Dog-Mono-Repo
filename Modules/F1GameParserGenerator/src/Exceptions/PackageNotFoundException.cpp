@@ -9,5 +9,8 @@ namespace DogGE{
         const char* PackageNotFoundException::what() const throw(){
             return mMessage.c_str();
         }
+        std::string PackageNotFoundException::getPackageName(){
+            return this->mPackageName;
+        }
     }
 }
