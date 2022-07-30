@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarTelemetryData_ENTITY____
+#define ____CarTelemetryData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -57,7 +57,9 @@ uint8_t surfaceTypeFL;
 uint8_t surfaceTypeFR;
 
             public:
-            
+            CarTelemetryDataEntity();
+CarTelemetryDataEntity(char* rawData,int size,int offset=0);
+
 
             void setSpeed(uint16_t speed);
 void setThrottle(float throttle);

@@ -3,6 +3,8 @@
 #pragma once
 #include <string>
 #include <map>
+//#include <Database.h>
+#include <vector>
 
 namespace DogGE{
     namespace Database{
@@ -21,12 +23,17 @@ namespace DogGE{
             virtual void matchRealData(std::string column,float data);
             virtual void matchStringData(std::string column,std::string data);
             virtual void matchRawData(std::string column,char* data,int length);
+            virtual void setEntityRelations(std::string column,AbstractEntity* entity);
+            virtual void setEntityArrayRelations(std::string column,std::vector<AbstractEntity*> entities);
+            
 
             virtual std::map<std::string,int> getIntMap();
             virtual std::map<std::string,int64_t> getInt64Map();
             virtual std::map<std::string,float> getRealMap();
             virtual std::map<std::string,std::string> getStringMap();
             virtual std::map<std::string,std::pair<char*,int>> getRawMap();
+            virtual std::map<std::string,std::vector<AbstractEntity*>> get1ToNRelations();
+            virtual std::map<std::string,AbstractEntity*> getNTo1Relations();
 
             virtual int getId();
             virtual void setId(int id);

@@ -17,7 +17,7 @@
 
 #include <stdint.h>
 #include <DataClass/Header.h>
-#include <DataClass/LapData.h>
+#include <DataClass/ParticipantsData.h>
 
 
 namespace DogGE{
@@ -26,16 +26,16 @@ namespace DogGE{
             private:
             Header header;
 uint8_t numActiveCars;
-LapData lapData[22];
+ParticipantsData participants[22];
 
             public:
             void setHeader(Header header);
 void setNumActiveCars(uint8_t numActiveCars);
-void setLapData(LapData* lapData);
+void setParticipants(ParticipantsData* participants);
 
             Header getHeader();
 uint8_t getNumActiveCars();
-LapData* getLapData();
+ParticipantsData* getParticipants();
 
         };
     }

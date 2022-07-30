@@ -11,34 +11,38 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____LapDataPackage_ENTITY____
+#define ____LapDataPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/LapDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class LapDataPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
-LapData lapData[22];
+            HeaderEntity header;
+LapDataEntity lapData[22];
 uint8_t timeTrialPBCarIdx;
 uint8_t timeTrialRivalCarIdx;
 
             public:
-            
+            LapDataPackageEntity();
+LapDataPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
-void setLapData(LapData* lapData);
+
+            void setHeader(HeaderEntity header);
+void setLapData(int i,LapDataEntity lapData);
 void setTimeTrialPBCarIdx(uint8_t timeTrialPBCarIdx);
 void setTimeTrialRivalCarIdx(uint8_t timeTrialRivalCarIdx);
 
-            Header getHeader();
-LapData* getLapData();
+            HeaderEntity getHeader();
+LapDataEntity* getLapData();
 uint8_t getTimeTrialPBCarIdx();
 uint8_t getTimeTrialRivalCarIdx();
 

@@ -11,36 +11,40 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarTelemetryPackage_ENTITY____
+#define ____CarTelemetryPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/CarTelemetryDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class CarTelemetryPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
-CarTelemetryData carTelemetry[22];
+            HeaderEntity header;
+CarTelemetryDataEntity carTelemetry[22];
 uint8_t mfdPanelIndex;
 uint8_t mfdPanelIndexSecondaryPlayer;
 int8_t suggestedGear;
 
             public:
-            
+            CarTelemetryPackageEntity();
+CarTelemetryPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
-void setCarTelemetry(CarTelemetryData* carTelemetry);
+
+            void setHeader(HeaderEntity header);
+void setCarTelemetry(int i,CarTelemetryDataEntity carTelemetry);
 void setMfdPanelIndex(uint8_t mfdPanelIndex);
 void setMfdPanelIndexSecondaryPlayer(uint8_t mfdPanelIndexSecondaryPlayer);
 void setSuggestedGear(int8_t suggestedGear);
 
-            Header getHeader();
-CarTelemetryData* getCarTelemetry();
+            HeaderEntity getHeader();
+CarTelemetryDataEntity* getCarTelemetry();
 uint8_t getMfdPanelIndex();
 uint8_t getMfdPanelIndexSecondaryPlayer();
 int8_t getSuggestedGear();

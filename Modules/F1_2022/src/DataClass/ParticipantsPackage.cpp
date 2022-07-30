@@ -17,12 +17,12 @@ namespace DogGE{
     namespace F1_2022{
         Header ParticipantsPackage::getHeader(){return this->header;}
 uint8_t ParticipantsPackage::getNumActiveCars(){return this->numActiveCars;}
-LapData* ParticipantsPackage::getLapData(){return this->lapData;}
+ParticipantsData* ParticipantsPackage::getParticipants(){return this->participants;}
 
         void ParticipantsPackage::setHeader(Header header){this->header = header;}
 void ParticipantsPackage::setNumActiveCars(uint8_t numActiveCars){this->numActiveCars = numActiveCars;}
-void ParticipantsPackage::setLapData(LapData* lapData){for(int i=0;i<22;i++){
-this->lapData[i] = lapData[i];
+void ParticipantsPackage::setParticipants(ParticipantsData* participants){for(int i=0;i<22;i++){
+this->participants[i] = participants[i];
 }
 }
 

@@ -57,7 +57,7 @@ uint8_t SessionPackage::getDynamicRacingLineType(){return this->dynamicRacingLin
 uint8_t SessionPackage::getGameMode(){return this->gameMode;}
 uint8_t SessionPackage::getRuleSet(){return this->ruleSet;}
 uint32_t SessionPackage::getTimeOfDay(){return this->timeOfDay;}
-uint32_t SessionPackage::getSessionLength(){return this->sessionLength;}
+uint8_t SessionPackage::getSessionLength(){return this->sessionLength;}
 
         void SessionPackage::setHeader(Header header){this->header = header;}
 void SessionPackage::setWeather(uint8_t weather){this->weather = weather;}
@@ -83,7 +83,7 @@ this->marshalZones[i] = marshalZones[i];
 void SessionPackage::setSafetyCarStatus(uint8_t safetyCarStatus){this->safetyCarStatus = safetyCarStatus;}
 void SessionPackage::setNetworkGame(uint8_t networkGame){this->networkGame = networkGame;}
 void SessionPackage::setNumWeatherForecastSamples(uint8_t numWeatherForecastSamples){this->numWeatherForecastSamples = numWeatherForecastSamples;}
-void SessionPackage::setWeatherForecastSamples(WeatherForecastSample* weatherForecastSamples){for(int i=0;i<1;i++){
+void SessionPackage::setWeatherForecastSamples(WeatherForecastSample* weatherForecastSamples){for(int i=0;i<56;i++){
 this->weatherForecastSamples[i] = weatherForecastSamples[i];
 }
 }
@@ -107,7 +107,7 @@ void SessionPackage::setDynamicRacingLineType(uint8_t dynamicRacingLineType){thi
 void SessionPackage::setGameMode(uint8_t gameMode){this->gameMode = gameMode;}
 void SessionPackage::setRuleSet(uint8_t ruleSet){this->ruleSet = ruleSet;}
 void SessionPackage::setTimeOfDay(uint32_t timeOfDay){this->timeOfDay = timeOfDay;}
-void SessionPackage::setSessionLength(uint32_t sessionLength){this->sessionLength = sessionLength;}
+void SessionPackage::setSessionLength(uint8_t sessionLength){this->sessionLength = sessionLength;}
 
     }
 }                    

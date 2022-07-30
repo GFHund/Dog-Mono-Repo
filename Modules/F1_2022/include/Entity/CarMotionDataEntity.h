@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarMotionData_ENTITY____
+#define ____CarMotionData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -44,7 +44,9 @@ float pitch;
 float roll;
 
             public:
-            
+            CarMotionDataEntity();
+CarMotionDataEntity(char* rawData,int size,int offset=0);
+
 
             void setWorldPositionX(float worldPositionX);
 void setWorldPositionY(float worldPositionY);

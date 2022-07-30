@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____FinalClassificationData_ENTITY____
+#define ____FinalClassificationData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -40,7 +40,9 @@ uint8_t tyreStintsVisual[8];
 uint8_t tyreStintsEndLaps[8];
 
             public:
-            
+            FinalClassificationDataEntity();
+FinalClassificationDataEntity(char* rawData,int size,int offset=0);
+
 
             void setPosition(uint8_t position);
 void setNumLaps(uint8_t numLaps);
@@ -53,9 +55,9 @@ void setTotalRaceTime(double totalRaceTime);
 void setPenaltiesTime(uint8_t penaltiesTime);
 void setNumPenalties(uint8_t numPenalties);
 void setNumTyreStints(uint8_t numTyreStints);
-void setTyreStintsActual(uint8_t* tyreStintsActual);
-void setTyreStintsVisual(uint8_t* tyreStintsVisual);
-void setTyreStintsEndLaps(uint8_t* tyreStintsEndLaps);
+void setTyreStintsActual(int i,uint8_t tyreStintsActual);
+void setTyreStintsVisual(int i,uint8_t tyreStintsVisual);
+void setTyreStintsEndLaps(int i,uint8_t tyreStintsEndLaps);
 
             uint8_t getPosition();
 uint8_t getNumLaps();

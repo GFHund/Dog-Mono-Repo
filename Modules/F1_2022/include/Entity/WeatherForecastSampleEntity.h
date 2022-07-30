@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____WeatherForecastSample_ENTITY____
+#define ____WeatherForecastSample_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -34,7 +34,9 @@ int8_t airTemperatureChange;
 uint8_t rainPercentage;
 
             public:
-            
+            WeatherForecastSampleEntity();
+WeatherForecastSampleEntity(char* rawData,int size,int offset=0);
+
 
             void setSessionType(uint8_t sessionType);
 void setTimeOffset(uint8_t timeOffset);

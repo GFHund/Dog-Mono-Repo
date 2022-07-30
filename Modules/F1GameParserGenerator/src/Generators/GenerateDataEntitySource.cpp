@@ -159,27 +159,68 @@ namespace DogGE{
                 for(auto field: fields){
                     std::string dataType = this->getDataType(field);
                     std::string functionDataType = this->getDataType(field,true);
+                    if(this->isClass(field)){
+                        dataType += "Entity";
+                        if(functionDataType[functionDataType.size()-1] == '*'){
+                            functionDataType = functionDataType.substr(0,functionDataType.size()-1) + "Entity*";
+                        } else {
+                            functionDataType += "Entity";
+                        }
+                    }
                     
                     if(!this->isClass(field)){
-                        constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(*(("+dataType+"*)(rawData+" + std::to_string(offset) + ")));\n";
+                        if(this->isArray(field)){
+                            constructorFunction += "for(int i=0;i<"+std::to_string(field.getSize())+";i++){";
+                            constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(i,*(("+dataType+"*)(rawData+" + std::to_string(offset) + ")));";
+                            constructorFunction += "}\n";
+                        } else {
+                            constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(*(("+dataType+"*)(rawData+" + std::to_string(offset) + ")));\n";
+                        }
+                        
                         //Condition for validation should be in the spec file but at first i write this it as a constant
                         if(field.getName().compare("packetFormat") == 0){
                             constructorFunction += "if(this->getPacketFormat() != "+spec.getName()+"){throw ValidationException();}\n";
                         }
                         offset += field.getSize();
                     } else {
-                        constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
-                            "("+DogGE::Utility::StringUtility::ucfirst(field.getName())+"(rawData,size,"+std::to_string(offset)+"));\n";
+                        if(this->isArray(field)){
+                            Packages targetPackage = spec.getPackage(field.getItemType());
+                            constructorFunction += "for(int i=0;i<"+std::to_string(field.getSize())+";i++){";//targetPackage.getSize()
+                            constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                            "(i,"+DogGE::Utility::StringUtility::ucfirst(field.getItemType())+"Entity(rawData,size,offset+"+std::to_string(offset)+"+i*"+std::to_string(targetPackage.getSize())+"));}\n";
+                            if(this->isClass2(field.getItemType())){
+                                Packages package = spec.getPackage(field.getItemType());
+                                offset += field.getSize()*package.getSize();
+                            } else {
+                                offset += field.getSize()*field.getItemTypeSize();
+                            }
+                            
+                        } else {
+                            constructorFunction += "this->set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                            "("+DogGE::Utility::StringUtility::ucfirst(field.getType())+"Entity(rawData,size,offset+"+std::to_string(offset)+"));\n";
+                            Packages package = spec.getPackage(field.getType());
+                            offset += package.getSize();
+                        }
+                        
                     }
                     
                     getterFunction += functionDataType+" "+f1Class+"::"+
                     "get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                     "(){return this->"+field.getName()+";}\n";
 
-                    setterFunction += "void "+f1Class+"::"+
-                    "set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
-                    "("+functionDataType+" "+field.getName()+")"+
-                    "{this->"+field.getName()+" = "+field.getName()+";}\n";
+                    if(this->isArray(field)){
+                        setterFunction += "void "+f1Class+"::"+
+                        "set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                        "(int i,"+dataType+" "+field.getName()+")"+
+                        "{this->"+field.getName()+"[i] = "+field.getName()+";}\n";
+                    } else {
+                        setterFunction += "void "+f1Class+"::"+
+                        "set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                        "("+functionDataType+" "+field.getName()+")"+
+                        "{this->"+field.getName()+" = "+field.getName()+";}\n";
+                    }
+
+                    
                     
 
                     std::string dbDataType = this->getDatabaseType(field);
@@ -212,6 +253,13 @@ namespace DogGE{
                     }
                 }
                 std::string absoluteSourceFile = outputFolder;
+                constructorFunction += "}";
+
+                if(matchIntData.size() <= 0){
+                    matchIntData += "DogGE::Database::AbstractEntity::matchIntData(column,data);\n";
+                } else {
+                    matchIntData += "{DogGE::Database::AbstractEntity::matchIntData(column,data);}\n";
+                }
 
                 sourceData.set("INCLUDE_HEADER",headerFile);
                 sourceData.set("INCLUDE_FILES",includeFiles);

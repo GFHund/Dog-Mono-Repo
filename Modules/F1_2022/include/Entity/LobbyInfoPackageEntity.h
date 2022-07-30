@@ -11,33 +11,37 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____LobbyInfoPackage_ENTITY____
+#define ____LobbyInfoPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/LobbyInfoDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class LobbyInfoPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
+            HeaderEntity header;
 uint8_t numPlayers;
-LobbyInfoData lobbyInfo[22];
+LobbyInfoDataEntity lobbyInfo[22];
 
             public:
-            
+            LobbyInfoPackageEntity();
+LobbyInfoPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
+
+            void setHeader(HeaderEntity header);
 void setNumPlayers(uint8_t numPlayers);
-void setLobbyInfo(LobbyInfoData* lobbyInfo);
+void setLobbyInfo(int i,LobbyInfoDataEntity lobbyInfo);
 
-            Header getHeader();
+            HeaderEntity getHeader();
 uint8_t getNumPlayers();
-LobbyInfoData* getLobbyInfo();
+LobbyInfoDataEntity* getLobbyInfo();
 
 
             virtual std::string getTableName();

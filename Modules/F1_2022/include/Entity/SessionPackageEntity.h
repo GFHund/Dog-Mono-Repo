@@ -11,20 +11,23 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____SessionPackage_ENTITY____
+#define ____SessionPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/MarshalZoneEntity.h>
+#include <Entity/WeatherForecastSampleEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class SessionPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
+            HeaderEntity header;
 uint8_t weather;
 int8_t trackTemperature;
 int8_t airTemperature;
@@ -41,11 +44,11 @@ uint8_t isSpectating;
 uint8_t spectatorCarIndex;
 uint8_t sliProNativeSupport;
 uint8_t numMarshalZones;
-MarshalZone marshalZones[21];
+MarshalZoneEntity marshalZones[21];
 uint8_t safetyCarStatus;
 uint8_t networkGame;
 uint8_t numWeatherForecastSamples;
-WeatherForecastSample weatherForecastSamples[1];
+WeatherForecastSampleEntity weatherForecastSamples[56];
 uint8_t forecastAccuracy;
 uint8_t aiDifficulty;
 uint32_t seasonLinkIdentifier;
@@ -66,12 +69,14 @@ uint8_t dynamicRacingLineType;
 uint8_t gameMode;
 uint8_t ruleSet;
 uint32_t timeOfDay;
-uint32_t sessionLength;
+uint8_t sessionLength;
 
             public:
-            
+            SessionPackageEntity();
+SessionPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
+
+            void setHeader(HeaderEntity header);
 void setWeather(uint8_t weather);
 void setTrackTemperature(int8_t trackTemperature);
 void setAirTemperature(int8_t airTemperature);
@@ -88,11 +93,11 @@ void setIsSpectating(uint8_t isSpectating);
 void setSpectatorCarIndex(uint8_t spectatorCarIndex);
 void setSliProNativeSupport(uint8_t sliProNativeSupport);
 void setNumMarshalZones(uint8_t numMarshalZones);
-void setMarshalZones(MarshalZone* marshalZones);
+void setMarshalZones(int i,MarshalZoneEntity marshalZones);
 void setSafetyCarStatus(uint8_t safetyCarStatus);
 void setNetworkGame(uint8_t networkGame);
 void setNumWeatherForecastSamples(uint8_t numWeatherForecastSamples);
-void setWeatherForecastSamples(WeatherForecastSample* weatherForecastSamples);
+void setWeatherForecastSamples(int i,WeatherForecastSampleEntity weatherForecastSamples);
 void setForecastAccuracy(uint8_t forecastAccuracy);
 void setAiDifficulty(uint8_t aiDifficulty);
 void setSeasonLinkIdentifier(uint32_t seasonLinkIdentifier);
@@ -113,9 +118,9 @@ void setDynamicRacingLineType(uint8_t dynamicRacingLineType);
 void setGameMode(uint8_t gameMode);
 void setRuleSet(uint8_t ruleSet);
 void setTimeOfDay(uint32_t timeOfDay);
-void setSessionLength(uint32_t sessionLength);
+void setSessionLength(uint8_t sessionLength);
 
-            Header getHeader();
+            HeaderEntity getHeader();
 uint8_t getWeather();
 int8_t getTrackTemperature();
 int8_t getAirTemperature();
@@ -132,11 +137,11 @@ uint8_t getIsSpectating();
 uint8_t getSpectatorCarIndex();
 uint8_t getSliProNativeSupport();
 uint8_t getNumMarshalZones();
-MarshalZone* getMarshalZones();
+MarshalZoneEntity* getMarshalZones();
 uint8_t getSafetyCarStatus();
 uint8_t getNetworkGame();
 uint8_t getNumWeatherForecastSamples();
-WeatherForecastSample* getWeatherForecastSamples();
+WeatherForecastSampleEntity* getWeatherForecastSamples();
 uint8_t getForecastAccuracy();
 uint8_t getAiDifficulty();
 uint32_t getSeasonLinkIdentifier();
@@ -157,7 +162,7 @@ uint8_t getDynamicRacingLineType();
 uint8_t getGameMode();
 uint8_t getRuleSet();
 uint32_t getTimeOfDay();
-uint32_t getSessionLength();
+uint8_t getSessionLength();
 
 
             virtual std::string getTableName();

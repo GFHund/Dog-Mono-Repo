@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____LapHistoryData_ENTITY____
+#define ____LapHistoryData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -31,7 +31,9 @@ uint16_t sector3TimeInMs;
 uint8_t lapValidBitFlags;
 
             public:
-            
+            LapHistoryDataEntity();
+LapHistoryDataEntity(char* rawData,int size,int offset=0);
+
 
             void setLapTimeInMS(uint32_t lapTimeInMS);
 void setSector1TimeInMs(uint16_t sector1TimeInMs);

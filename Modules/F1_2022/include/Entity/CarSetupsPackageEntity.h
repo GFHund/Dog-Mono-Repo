@@ -11,30 +11,34 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarSetupsPackage_ENTITY____
+#define ____CarSetupsPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/CarSetupDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class CarSetupsPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
-CarSetupData carSetups[22];
+            HeaderEntity header;
+CarSetupDataEntity carSetups[22];
 
             public:
-            
+            CarSetupsPackageEntity();
+CarSetupsPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
-void setCarSetups(CarSetupData* carSetups);
 
-            Header getHeader();
-CarSetupData* getCarSetups();
+            void setHeader(HeaderEntity header);
+void setCarSetups(int i,CarSetupDataEntity carSetups);
+
+            HeaderEntity getHeader();
+CarSetupDataEntity* getCarSetups();
 
 
             virtual std::string getTableName();

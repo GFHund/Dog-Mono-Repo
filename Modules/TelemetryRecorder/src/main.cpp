@@ -52,9 +52,9 @@ int main(int argc,char** argv){
     recorder->init();
     std::cout << bCloseProgram << std::endl;
     while(!bCloseProgram){
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         CTelemetry::Recorder::RecordState state = recorder->getState();
         std::cout << "Recived Packages: "<< state.getTotalPackages() << " Parsed Packages: " << state.getReadPackages() << " Discaded Packages: " << state.getWastedPackages() << " Queue Length: " << state.getQueueLength() <<std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(10));
     }
     std::cout << "close Recorder" << std::endl;
     recorder->close();

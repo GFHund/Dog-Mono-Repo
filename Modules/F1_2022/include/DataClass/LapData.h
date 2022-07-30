@@ -24,8 +24,8 @@ namespace DogGE{
             private:
             uint32_t lastLapTimeInMs;
 uint32_t currentLapTimeInMs;
-uint32_t sector1TimeInMs;
-uint32_t sector2TimeInMs;
+uint16_t sector1TimeInMs;
+uint16_t sector2TimeInMs;
 float lapDistance;
 float totalDistance;
 float safetyCarDelta;
@@ -50,8 +50,8 @@ uint8_t pitStopShouldServePen;
             public:
             void setLastLapTimeInMs(uint32_t lastLapTimeInMs);
 void setCurrentLapTimeInMs(uint32_t currentLapTimeInMs);
-void setSector1TimeInMs(uint32_t sector1TimeInMs);
-void setSector2TimeInMs(uint32_t sector2TimeInMs);
+void setSector1TimeInMs(uint16_t sector1TimeInMs);
+void setSector2TimeInMs(uint16_t sector2TimeInMs);
 void setLapDistance(float lapDistance);
 void setTotalDistance(float totalDistance);
 void setSafetyCarDelta(float safetyCarDelta);
@@ -75,8 +75,8 @@ void setPitStopShouldServePen(uint8_t pitStopShouldServePen);
 
             uint32_t getLastLapTimeInMs();
 uint32_t getCurrentLapTimeInMs();
-uint32_t getSector1TimeInMs();
-uint32_t getSector2TimeInMs();
+uint16_t getSector1TimeInMs();
+uint16_t getSector2TimeInMs();
 float getLapDistance();
 float getTotalDistance();
 float getSafetyCarDelta();

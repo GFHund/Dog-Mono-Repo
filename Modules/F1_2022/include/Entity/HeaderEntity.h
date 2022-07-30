@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____Header_ENTITY____
+#define ____Header_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -36,7 +36,9 @@ uint8_t playerCarIndex;
 uint8_t secondaryPlayerCarIndex;
 
             public:
-            
+            HeaderEntity();
+HeaderEntity(char* rawData,int size,int offset=0);
+
 
             void setPacketFormat(uint16_t packetFormat);
 void setGameMajorVersion(uint8_t gameMajorVersion);

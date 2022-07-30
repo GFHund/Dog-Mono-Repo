@@ -16,6 +16,8 @@ namespace DogGE{
         void AbstractEntity::matchRealData(std::string column,float data){}
         void AbstractEntity::matchStringData(std::string column,std::string data){}
         void AbstractEntity::matchRawData(std::string column,char* data,int length){}
+        void AbstractEntity::setEntityRelations(std::string column,AbstractEntity* entity){}
+        void AbstractEntity::setEntityArrayRelations(std::string column,std::vector<AbstractEntity*> entities){}
 
         std::map<std::string,int> AbstractEntity::getIntMap(){
             std::map<std::string,int> ret;
@@ -38,6 +40,9 @@ namespace DogGE{
             std::map<std::string,std::pair<char*,int>> ret;
             return ret;
         }
+
+        std::map<std::string,std::vector<AbstractEntity*>> AbstractEntity::get1ToNRelations(){}
+        std::map<std::string,AbstractEntity*> AbstractEntity::getNTo1Relations(){}
 
         int AbstractEntity::getId(){
             return this->id;

@@ -11,33 +11,37 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____FinalClassificationPackage_ENTITY____
+#define ____FinalClassificationPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/FinalClassificationDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class FinalClassificationPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
+            HeaderEntity header;
 uint8_t numCars;
-FinalClassificationData classification[22];
+FinalClassificationDataEntity classification[22];
 
             public:
-            
+            FinalClassificationPackageEntity();
+FinalClassificationPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
+
+            void setHeader(HeaderEntity header);
 void setNumCars(uint8_t numCars);
-void setClassification(FinalClassificationData* classification);
+void setClassification(int i,FinalClassificationDataEntity classification);
 
-            Header getHeader();
+            HeaderEntity getHeader();
 uint8_t getNumCars();
-FinalClassificationData* getClassification();
+FinalClassificationDataEntity* getClassification();
 
 
             virtual std::string getTableName();

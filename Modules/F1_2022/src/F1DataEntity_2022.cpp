@@ -12,7 +12,7 @@
  * 
  */
 
-#include <F1DataEntity_2022.h>
+#include <Entity/F1DataEntity_2022.h>
 
 #include <Exceptions/ValidationException.h>
 

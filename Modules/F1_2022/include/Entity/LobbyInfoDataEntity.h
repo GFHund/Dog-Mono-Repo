@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____LobbyInfoData_ENTITY____
+#define ____LobbyInfoData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -32,12 +32,14 @@ uint8_t carNumber;
 uint8_t readyStatus;
 
             public:
-            
+            LobbyInfoDataEntity();
+LobbyInfoDataEntity(char* rawData,int size,int offset=0);
+
 
             void setAiControlled(uint8_t aiControlled);
 void setTeamId(uint8_t teamId);
 void setNationality(uint8_t nationality);
-void setName(char* name);
+void setName(int i,char name);
 void setCarNumber(uint8_t carNumber);
 void setReadyStatus(uint8_t readyStatus);
 

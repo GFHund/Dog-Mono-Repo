@@ -17,8 +17,8 @@ namespace DogGE{
     namespace F1_2022{
         uint32_t LapData::getLastLapTimeInMs(){return this->lastLapTimeInMs;}
 uint32_t LapData::getCurrentLapTimeInMs(){return this->currentLapTimeInMs;}
-uint32_t LapData::getSector1TimeInMs(){return this->sector1TimeInMs;}
-uint32_t LapData::getSector2TimeInMs(){return this->sector2TimeInMs;}
+uint16_t LapData::getSector1TimeInMs(){return this->sector1TimeInMs;}
+uint16_t LapData::getSector2TimeInMs(){return this->sector2TimeInMs;}
 float LapData::getLapDistance(){return this->lapDistance;}
 float LapData::getTotalDistance(){return this->totalDistance;}
 float LapData::getSafetyCarDelta(){return this->safetyCarDelta;}
@@ -42,8 +42,8 @@ uint8_t LapData::getPitStopShouldServePen(){return this->pitStopShouldServePen;}
 
         void LapData::setLastLapTimeInMs(uint32_t lastLapTimeInMs){this->lastLapTimeInMs = lastLapTimeInMs;}
 void LapData::setCurrentLapTimeInMs(uint32_t currentLapTimeInMs){this->currentLapTimeInMs = currentLapTimeInMs;}
-void LapData::setSector1TimeInMs(uint32_t sector1TimeInMs){this->sector1TimeInMs = sector1TimeInMs;}
-void LapData::setSector2TimeInMs(uint32_t sector2TimeInMs){this->sector2TimeInMs = sector2TimeInMs;}
+void LapData::setSector1TimeInMs(uint16_t sector1TimeInMs){this->sector1TimeInMs = sector1TimeInMs;}
+void LapData::setSector2TimeInMs(uint16_t sector2TimeInMs){this->sector2TimeInMs = sector2TimeInMs;}
 void LapData::setLapDistance(float lapDistance){this->lapDistance = lapDistance;}
 void LapData::setTotalDistance(float totalDistance){this->totalDistance = totalDistance;}
 void LapData::setSafetyCarDelta(float safetyCarDelta){this->safetyCarDelta = safetyCarDelta;}

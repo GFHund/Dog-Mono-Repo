@@ -20,9 +20,11 @@ namespace DogGE{
             std::vector<Fields> fields = headerPackage.getFields();
             std::string tableName = "F1DataEntity";
             std::string tableFieldNames = "";
-            std::string tableFieldValues = "";
+            std::string tableFieldValues = "(";
             std::string fillInsertStmt = "";
             bool bFirst = true;
+            int numFields = fields.size();
+            numFields++;
             int i = 1;
 
             for(auto field:fields){
@@ -34,20 +36,27 @@ namespace DogGE{
                 }
                 tableFieldNames += "`"+field.getName()+"`";
                 tableFieldValues += "@"+field.getName();
+                tableFieldValues += "#";
                 if(field.getType().compare("int") == 0 || field.getType().compare("uint") == 0){
                     if(field.getSize() > 4){
-                        fillInsertStmt += "insertStatement->setInt64Param("+
+                        fillInsertStmt += "insertStatement->setInt64Param(i*"+
+                        std::to_string(numFields)+
+                        "+"+
                         std::to_string(i)+
                         ",entity.get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                         "());\n";
                     } else {
-                        fillInsertStmt += "insertStatement->setIntParam("+
+                        fillInsertStmt += "insertStatement->setIntParam(i*"+
+                        std::to_string(numFields)+
+                        "+"+
                         std::to_string(i)+
                         ",entity.get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                         "());\n";
                     }
                 } else if(field.getType().compare("float") == 0){
-                    fillInsertStmt += "insertStatement->setFloatParam("+
+                    fillInsertStmt += "insertStatement->setFloatParam(i*"+
+                        std::to_string(numFields)+
+                        "+"+
                         std::to_string(i)+
                         ",entity.get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                         "());\n";
@@ -56,8 +65,20 @@ namespace DogGE{
                 i++;
             }
             tableFieldNames += ",`packet`";
-            tableFieldValues += ",@packet";
-            fillInsertStmt += "insertStatement->setBlobParam("+std::to_string(i)+",entity.getPacketData(),entity.getPacketSize());\n";
+            tableFieldValues += ",@packet#)";
+            fillInsertStmt += "insertStatement->setBlobParam(i*"+
+                std::to_string(numFields)+
+                "+"+
+                std::to_string(i)+",entity.getPacketData(),entity.getPacketSize());\n";
+
+            std::string multipleTableFieldValues = "";
+            for(int i=0;i<2;i++){
+                if(i > 0){
+                    multipleTableFieldValues += ",";
+                }
+                multipleTableFieldValues += DogGE::Utility::StringUtility::replaceChar(tableFieldValues,'#',(char)(i+0x30));
+
+            }
 
             kainjow::mustache::data bodyData;
             bodyData.set("NAMESPACE_NAME",namespaceStr);
@@ -67,7 +88,7 @@ namespace DogGE{
             bodyData.set("ADDITIONAL_INCLUDES",entityHeaderFileInclude);
             bodyData.set("TABLE_NAME",tableName);
             bodyData.set("TABLE_FIELD_NAMES",tableFieldNames);
-            bodyData.set("TABLE_FIELD_VALUES",tableFieldValues);
+            bodyData.set("TABLE_FIELD_VALUES",multipleTableFieldValues);
             bodyData.set("FILL_INSERT_STMT",fillInsertStmt);
 
             std::vector<std::string> ret;

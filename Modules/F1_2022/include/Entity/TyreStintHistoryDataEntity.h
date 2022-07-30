@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____TyreStintHistoryData_ENTITY____
+#define ____TyreStintHistoryData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -29,7 +29,9 @@ uint8_t tyreActualCompound;
 uint8_t tyreVisualCompound;
 
             public:
-            
+            TyreStintHistoryDataEntity();
+TyreStintHistoryDataEntity(char* rawData,int size,int offset=0);
+
 
             void setEndLap(uint8_t endLap);
 void setTyreActualCompound(uint8_t tyreActualCompound);

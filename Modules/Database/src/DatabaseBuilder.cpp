@@ -39,7 +39,9 @@ namespace DogGE{
         Database* DatabaseBuilder::convertMemoryIntoFile(Database* db,std::string file){
             Database* fileDB = DatabaseBuilder::fromFile(file);
             sqlite3_backup* backup;
-            backup = sqlite3_backup_init(fileDB->getRawDatabase(),"main",db->getRawDatabase(),"main");
+            backup = sqlite3_backup_init(
+                fileDB->getRawDatabase(),"main",
+                db->getRawDatabase(),"main");
             if(backup){
                 (void) sqlite3_backup_step(backup,-1);
                 (void) sqlite3_backup_finish(backup);

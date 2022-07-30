@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____LapData_ENTITY____
+#define ____LapData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -26,8 +26,8 @@ namespace DogGE{
             private:
             uint32_t lastLapTimeInMs;
 uint32_t currentLapTimeInMs;
-uint32_t sector1TimeInMs;
-uint32_t sector2TimeInMs;
+uint16_t sector1TimeInMs;
+uint16_t sector2TimeInMs;
 float lapDistance;
 float totalDistance;
 float safetyCarDelta;
@@ -50,12 +50,14 @@ uint16_t pitStopTimerInMS;
 uint8_t pitStopShouldServePen;
 
             public:
-            
+            LapDataEntity();
+LapDataEntity(char* rawData,int size,int offset=0);
+
 
             void setLastLapTimeInMs(uint32_t lastLapTimeInMs);
 void setCurrentLapTimeInMs(uint32_t currentLapTimeInMs);
-void setSector1TimeInMs(uint32_t sector1TimeInMs);
-void setSector2TimeInMs(uint32_t sector2TimeInMs);
+void setSector1TimeInMs(uint16_t sector1TimeInMs);
+void setSector2TimeInMs(uint16_t sector2TimeInMs);
 void setLapDistance(float lapDistance);
 void setTotalDistance(float totalDistance);
 void setSafetyCarDelta(float safetyCarDelta);
@@ -79,8 +81,8 @@ void setPitStopShouldServePen(uint8_t pitStopShouldServePen);
 
             uint32_t getLastLapTimeInMs();
 uint32_t getCurrentLapTimeInMs();
-uint32_t getSector1TimeInMs();
-uint32_t getSector2TimeInMs();
+uint16_t getSector1TimeInMs();
+uint16_t getSector2TimeInMs();
 float getLapDistance();
 float getTotalDistance();
 float getSafetyCarDelta();

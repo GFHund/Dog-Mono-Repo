@@ -1,0 +1,16 @@
+{
+    "Driver":[
+        "@Player"
+    ],
+    "Fields":[
+        "CarTelemetryPackage.CarTelemetryData.speed",
+        "CarTelemetryPackage.CarTelemetryData.throttle",
+        "CarTelemetryPackage.CarTelemetryData.steer",
+        "CarTelemetryPackage.CarTelemetryData.brake",
+        "CarTelemetryPackage.CarTelemetryData.gear",
+        "CarTelemetryPackage.CarTelemetryData.engineRPM",
+        "CarTelemetryPackage.CarTelemetryData.engineRPM",
+        "LapDataPackage.LapData.lapDistance",
+        "LapDataPackage.LapData.currentLapTimeInMs"
+    ]
+}

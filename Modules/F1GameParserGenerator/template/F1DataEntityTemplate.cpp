@@ -12,7 +12,7 @@
  * 
  */
 
-#include <{{&INCLUDE_HEADER}}>
+#include <Entity/{{&INCLUDE_HEADER}}>
 
 {{&INCLUDE_FILES}}
 
@@ -68,6 +68,12 @@ namespace DogGE{
             std::map<std::string,std::pair<char*,int>> ret;
             {{&GET_RAW_MAP}}
             return ret;
+        }
+        std::vector<AbstractEntity*> {{&CLASS_NAME}}::getPrePersistsRelations(){
+
+        }
+        std::vector<AbstractEntity*> {{&CLASS_NAME}}::getPostPersistsRelation(){
+            
         }
     }
 }

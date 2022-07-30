@@ -11,21 +11,23 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____MotionPackage_ENTITY____
+#define ____MotionPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/CarMotionDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class MotionPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
-CarMotionData carMotionData[22];
+            HeaderEntity header;
+CarMotionDataEntity carMotionData[22];
 float suspensionPosition[4];
 float suspensionVelocity[4];
 float suspensionAcceleration[4];
@@ -43,15 +45,17 @@ float angularAccelerationZ;
 float frontWheelsAngle;
 
             public:
-            
+            MotionPackageEntity();
+MotionPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
-void setCarMotionData(CarMotionData* carMotionData);
-void setSuspensionPosition(float* suspensionPosition);
-void setSuspensionVelocity(float* suspensionVelocity);
-void setSuspensionAcceleration(float* suspensionAcceleration);
-void setWheelSpeed(float* wheelSpeed);
-void setWheelSlip(float* wheelSlip);
+
+            void setHeader(HeaderEntity header);
+void setCarMotionData(int i,CarMotionDataEntity carMotionData);
+void setSuspensionPosition(int i,float suspensionPosition);
+void setSuspensionVelocity(int i,float suspensionVelocity);
+void setSuspensionAcceleration(int i,float suspensionAcceleration);
+void setWheelSpeed(int i,float wheelSpeed);
+void setWheelSlip(int i,float wheelSlip);
 void setLocalVelocityX(float localVelocityX);
 void setLocalVelocityY(float localVelocityY);
 void setLocalVelocityZ(float localVelocityZ);
@@ -63,8 +67,8 @@ void setAngularAccelerationY(float angularAccelerationY);
 void setAngularAccelerationZ(float angularAccelerationZ);
 void setFrontWheelsAngle(float frontWheelsAngle);
 
-            Header getHeader();
-CarMotionData* getCarMotionData();
+            HeaderEntity getHeader();
+CarMotionDataEntity* getCarMotionData();
 float* getSuspensionPosition();
 float* getSuspensionVelocity();
 float* getSuspensionAcceleration();

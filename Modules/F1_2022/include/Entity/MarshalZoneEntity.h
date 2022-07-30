@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____MarshalZone_ENTITY____
+#define ____MarshalZone_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -28,7 +28,9 @@ namespace DogGE{
 int8_t zoneFlag;
 
             public:
-            
+            MarshalZoneEntity();
+MarshalZoneEntity(char* rawData,int size,int offset=0);
+
 
             void setZoneStart(float zoneStart);
 void setZoneFlag(int8_t zoneFlag);

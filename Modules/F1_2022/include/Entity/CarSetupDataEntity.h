@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarSetupData_ENTITY____
+#define ____CarSetupData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -48,7 +48,9 @@ uint8_t ballast;
 float fuelLoad;
 
             public:
-            
+            CarSetupDataEntity();
+CarSetupDataEntity(char* rawData,int size,int offset=0);
+
 
             void setFrontWing(uint8_t frontWing);
 void setRearWing(uint8_t rearWing);

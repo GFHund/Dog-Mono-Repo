@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____ParticipantsData_ENTITY____
+#define ____ParticipantsData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -35,7 +35,9 @@ char name[48];
 uint8_t yourTelemetry;
 
             public:
-            
+            ParticipantsDataEntity();
+ParticipantsDataEntity(char* rawData,int size,int offset=0);
+
 
             void setAiControlled(uint8_t aiControlled);
 void setDriverId(uint8_t driverId);
@@ -44,7 +46,7 @@ void setTeamId(uint8_t teamId);
 void setMyTeam(uint8_t myTeam);
 void setRaceNumer(uint8_t raceNumer);
 void setNationality(uint8_t nationality);
-void setName(char* name);
+void setName(int i,char name);
 void setYourTelemetry(uint8_t yourTelemetry);
 
             uint8_t getAiControlled();

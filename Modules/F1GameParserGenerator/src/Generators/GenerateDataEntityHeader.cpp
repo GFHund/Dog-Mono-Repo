@@ -52,7 +52,7 @@ namespace DogGE{
             headerData.set("GETTERS_DEFINITION",getterPrototype);
 
             std::string absoluteHeaderFile = outputFolder;
-            absoluteHeaderFile += "/include/";
+            absoluteHeaderFile += "/include/Entity/";
             absoluteHeaderFile += headerFile;
             this->renderFile("template/F1DataEntityTemplate.h",absoluteHeaderFile,headerData);
         }
@@ -78,10 +78,19 @@ namespace DogGE{
                 std::string constructorPrototype = "";
                 std::string getterPrototype = "";
                 std::string setterPrototype = "";
+                std::string includeFiles = "";
 
                 for(auto field:fields){
                     std::string dataType = this->getDataType(field);
                     std::string functionDataType = this->getDataType(field,true);
+                    if(this->isClass(field)){
+                        dataType += "Entity";
+                        if(functionDataType[functionDataType.size()-1] == '*'){
+                            functionDataType = functionDataType.substr(0,functionDataType.size()-1) + "Entity*";
+                        } else {
+                            functionDataType += "Entity";
+                        }
+                    }
                     properties += dataType;
                     properties += " ";
                     properties += field.getName();
@@ -89,14 +98,29 @@ namespace DogGE{
                     properties += ";\n";
                     getterPrototype += functionDataType+" "+
                         "get"+DogGE::Utility::StringUtility::ucfirst(field.getName())+"();\n";
-                    setterPrototype += "void set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                    if(this->isArray(field)){
+                        setterPrototype += "void set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
+                        "(int i,"+dataType+" "+field.getName()+");\n";
+                    } else {
+                        setterPrototype += "void set"+DogGE::Utility::StringUtility::ucfirst(field.getName())+
                         "("+functionDataType+" "+field.getName()+");\n";
+                    }
+                    
+                    if(this->isClass(field)){
+                        includeFiles += "#include <Entity/";
+                        includeFiles += dataType;
+                        includeFiles += ".h>\n";
+                    }
                 }
                 constructorPrototype += f1ClassName+"();\n"+f1ClassName+"(char* rawData,int size,int offset=0);\n";
+                std::string definitionName = "__";
+                definitionName += package.getName();
+                definitionName += "_ENTITY__";
 
-                headerData.set("DEFINE_NAME","__F1_DATA_ENTITY__");
+
+                headerData.set("DEFINE_NAME",definitionName);
                 headerData.set("NAMESPACE_NAME",namespaceStr);
-                headerData.set("INCLUDE_FILES","");
+                headerData.set("INCLUDE_FILES",includeFiles);
                 headerData.set("CLASS_NAME",f1ClassName);
                 headerData.set("PROPERTIES",properties);
                 headerData.set("CONSTRUCTORS",constructorPrototype);

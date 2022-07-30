@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarStatusData_ENTITY____
+#define ____CarStatusData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -49,7 +49,9 @@ float ersDeployedThisLap;
 uint8_t networkPaused;
 
             public:
-            
+            CarStatusDataEntity();
+CarStatusDataEntity(char* rawData,int size,int offset=0);
+
 
             void setTractionControl(uint8_t tractionControl);
 void setAntiLockBrakes(uint8_t antiLockBrakes);

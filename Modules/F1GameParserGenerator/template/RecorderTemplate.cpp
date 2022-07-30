@@ -58,20 +58,27 @@ namespace DogGE{
             createStatement->execute();
             delete createStatement;
             DogGE::Database::PrepareStatement* insertStatement = this->mDatabase->prepareStatement("INSERT INTO {{&TABLE_NAME}}({{&TABLE_FIELD_NAMES}}) VALUES {{&TABLE_FIELD_VALUES}}");
+            int packageNum = 2;
             do{
-                if(mQueue.size() == 0){
+                mtx.lock();
+                if(mQueue.size() < packageNum){
+                    mtx.unlock();
                     continue;
                 }
-                mtx.lock();
-                std::array<char,2000> datagram = mQueue.front();
-                mQueue.pop();
                 mtx.unlock();
-                {{&ENTITY_FILE_NAME}} entity = {{&ENTITY_FILE_NAME}}(datagram.data(),datagram.size());
-                {{&FILL_INSERT_STMT}}
+
+                for(int i=0; i < packageNum;i++){
+                    mtx.lock();
+                    std::array<char,2000> datagram = mQueue.front();
+                    mQueue.pop();
+                    mtx.unlock();
+                    {{&ENTITY_FILE_NAME}} entity = {{&ENTITY_FILE_NAME}}(datagram.data(),datagram.size());
+                    {{&FILL_INSERT_STMT}}
+                }
                 insertStatement->execute();
                 insertStatement->resetParam();
                 //this->mDatabase->persistData(&entity);
-                mParsedPackages++;
+                mParsedPackages+=packageNum;
                 
             } while(this->bRun);
             delete insertStatement;
@@ -80,8 +87,9 @@ namespace DogGE{
             this->mDatabase = nullptr;
         }
         CTelemetry::Recorder::RecordState {{&CLASS_NAME}}::getState(){
+            
             if(this->mDatabase != nullptr){
-                DogGE::Database::DatabaseBuilder::convertMemoryIntoFile(this->mDatabase,this->mOutput);
+                //DogGE::Database::DatabaseBuilder::convertMemoryIntoFile(this->mDatabase,this->mOutput);
             }
             
             int recivedPackages = this->mRecivedPackages;

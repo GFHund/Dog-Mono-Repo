@@ -57,32 +57,39 @@ namespace DogGE{
             DogGE::Database::PrepareStatement* createStatement = this->mDatabase->prepareStatement(dummyEntity.getTableDefinition());
             createStatement->execute();
             delete createStatement;
-            DogGE::Database::PrepareStatement* insertStatement = this->mDatabase->prepareStatement("INSERT INTO F1DataEntity(`packetFormat`,`gameMajorVersion`,`gameMinorVersion`,`packetVersion`,`packetId`,`sessionUID`,`sessionTime`,`frameIdentifier`,`playerCarIndex`,`secondaryPlayerCarIndex`,`packet`) VALUES @packetFormat,@gameMajorVersion,@gameMinorVersion,@packetVersion,@packetId,@sessionUID,@sessionTime,@frameIdentifier,@playerCarIndex,@secondaryPlayerCarIndex,@packet");
+            DogGE::Database::PrepareStatement* insertStatement = this->mDatabase->prepareStatement("INSERT INTO F1DataEntity(`packetFormat`,`gameMajorVersion`,`gameMinorVersion`,`packetVersion`,`packetId`,`sessionUID`,`sessionTime`,`frameIdentifier`,`playerCarIndex`,`secondaryPlayerCarIndex`,`packet`) VALUES (@packetFormat0,@gameMajorVersion0,@gameMinorVersion0,@packetVersion0,@packetId0,@sessionUID0,@sessionTime0,@frameIdentifier0,@playerCarIndex0,@secondaryPlayerCarIndex0,@packet0),(@packetFormat1,@gameMajorVersion1,@gameMinorVersion1,@packetVersion1,@packetId1,@sessionUID1,@sessionTime1,@frameIdentifier1,@playerCarIndex1,@secondaryPlayerCarIndex1,@packet1)");
+            int packageNum = 2;
             do{
-                if(mQueue.size() == 0){
+                mtx.lock();
+                if(mQueue.size() < packageNum){
+                    mtx.unlock();
                     continue;
                 }
-                mtx.lock();
-                std::array<char,2000> datagram = mQueue.front();
-                mQueue.pop();
                 mtx.unlock();
-                F1DataEntity entity = F1DataEntity(datagram.data(),datagram.size());
-                insertStatement->setIntParam(1,entity.getPacketFormat());
-insertStatement->setIntParam(2,entity.getGameMajorVersion());
-insertStatement->setIntParam(3,entity.getGameMinorVersion());
-insertStatement->setIntParam(4,entity.getPacketVersion());
-insertStatement->setIntParam(5,entity.getPacketId());
-insertStatement->setInt64Param(6,entity.getSessionUID());
-insertStatement->setFloatParam(7,entity.getSessionTime());
-insertStatement->setIntParam(8,entity.getFrameIdentifier());
-insertStatement->setIntParam(9,entity.getPlayerCarIndex());
-insertStatement->setIntParam(10,entity.getSecondaryPlayerCarIndex());
-insertStatement->setBlobParam(11,entity.getPacketData(),entity.getPacketSize());
 
+                for(int i=0; i < packageNum;i++){
+                    mtx.lock();
+                    std::array<char,2000> datagram = mQueue.front();
+                    mQueue.pop();
+                    mtx.unlock();
+                    F1DataEntity entity = F1DataEntity(datagram.data(),datagram.size());
+                    insertStatement->setIntParam(i*11+1,entity.getPacketFormat());
+insertStatement->setIntParam(i*11+2,entity.getGameMajorVersion());
+insertStatement->setIntParam(i*11+3,entity.getGameMinorVersion());
+insertStatement->setIntParam(i*11+4,entity.getPacketVersion());
+insertStatement->setIntParam(i*11+5,entity.getPacketId());
+insertStatement->setInt64Param(i*11+6,entity.getSessionUID());
+insertStatement->setFloatParam(i*11+7,entity.getSessionTime());
+insertStatement->setIntParam(i*11+8,entity.getFrameIdentifier());
+insertStatement->setIntParam(i*11+9,entity.getPlayerCarIndex());
+insertStatement->setIntParam(i*11+10,entity.getSecondaryPlayerCarIndex());
+insertStatement->setBlobParam(i*11+11,entity.getPacketData(),entity.getPacketSize());
+
+                }
                 insertStatement->execute();
                 insertStatement->resetParam();
                 //this->mDatabase->persistData(&entity);
-                mParsedPackages++;
+                mParsedPackages+=packageNum;
                 
             } while(this->bRun);
             delete insertStatement;
@@ -91,8 +98,9 @@ insertStatement->setBlobParam(11,entity.getPacketData(),entity.getPacketSize());
             this->mDatabase = nullptr;
         }
         CTelemetry::Recorder::RecordState Recorder_2022::getState(){
+            
             if(this->mDatabase != nullptr){
-                DogGE::Database::DatabaseBuilder::convertMemoryIntoFile(this->mDatabase,this->mOutput);
+                //DogGE::Database::DatabaseBuilder::convertMemoryIntoFile(this->mDatabase,this->mOutput);
             }
             
             int recivedPackages = this->mRecivedPackages;
@@ -103,4 +111,4 @@ insertStatement->setBlobParam(11,entity.getPacketData(),entity.getPacketSize());
             return CTelemetry::Recorder::RecordState(recivedPackages,parsedPackages,0,queueSize);
         }
     }
-}                                                                                              
+}                                                                                                      

@@ -46,7 +46,7 @@ MarshalZone marshalZones[21];
 uint8_t safetyCarStatus;
 uint8_t networkGame;
 uint8_t numWeatherForecastSamples;
-WeatherForecastSample weatherForecastSamples[1];
+WeatherForecastSample weatherForecastSamples[56];
 uint8_t forecastAccuracy;
 uint8_t aiDifficulty;
 uint32_t seasonLinkIdentifier;
@@ -67,7 +67,7 @@ uint8_t dynamicRacingLineType;
 uint8_t gameMode;
 uint8_t ruleSet;
 uint32_t timeOfDay;
-uint32_t sessionLength;
+uint8_t sessionLength;
 
             public:
             void setHeader(Header header);
@@ -112,7 +112,7 @@ void setDynamicRacingLineType(uint8_t dynamicRacingLineType);
 void setGameMode(uint8_t gameMode);
 void setRuleSet(uint8_t ruleSet);
 void setTimeOfDay(uint32_t timeOfDay);
-void setSessionLength(uint32_t sessionLength);
+void setSessionLength(uint8_t sessionLength);
 
             Header getHeader();
 uint8_t getWeather();
@@ -156,7 +156,7 @@ uint8_t getDynamicRacingLineType();
 uint8_t getGameMode();
 uint8_t getRuleSet();
 uint32_t getTimeOfDay();
-uint32_t getSessionLength();
+uint8_t getSessionLength();
 
         };
     }

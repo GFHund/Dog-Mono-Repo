@@ -33,6 +33,12 @@ namespace DogGE{
         }
         //void createTable(AbstractEntity* table);
         void Database::persistData(AbstractEntity* data){
+            std::map<std::string,AbstractEntity*> preEntity = data->getNTo1Relations();
+            for(auto entityIter:preEntity){
+                this->persistData(entityIter.second);
+                data->setEntityRelations(entityIter.first,entityIter.second);
+            }
+
             std::vector<std::pair<std::string,Table::DataType>> columns;
             
             try{
@@ -165,11 +171,21 @@ namespace DogGE{
 
             if(rc == SQLITE_DONE || rc == SQLITE_OK){
                 sqlite3_finalize(stmt);
-                return;
+            } else {
+                std::string error = std::string(sqlite3_errmsg(this->mDb));
+                sqlite3_finalize(stmt);
+                throw SQLErrorException(error,sql);
             }
-            std::string error = std::string(sqlite3_errmsg(this->mDb));
-            sqlite3_finalize(stmt);
-            throw SQLErrorException(error,sql);
+            std::map<std::string,std::vector<AbstractEntity*>> postEntities = data->get1ToNRelations();
+            for(auto iterEntities:postEntities){
+                for(auto iterEntity:iterEntities.second){
+                    iterEntity->setEntityRelations(data->getTableName(),data);
+                    this->persistData(iterEntity);
+                    
+                    //data->setEntityRelations(iterEntities.first,iterEntity);
+                }
+                
+            }
         }
 
         QueryBuilder Database::createQueryBuilder(std::string table){

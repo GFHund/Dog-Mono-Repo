@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____CarDamageData_ENTITY____
+#define ____CarDamageData_ENTITY____
 #pragma once
 
 #include <stdint.h>
@@ -56,7 +56,9 @@ uint8_t engineBlown;
 uint8_t engineSeized;
 
             public:
-            
+            CarDamageDataEntity();
+CarDamageDataEntity(char* rawData,int size,int offset=0);
+
 
             void setTyresWearRL(float tyresWearRL);
 void setTyresWearRR(float tyresWearRR);

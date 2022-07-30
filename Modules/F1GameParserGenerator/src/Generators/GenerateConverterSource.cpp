@@ -21,8 +21,12 @@ namespace DogGE{
 
             std::map<int,std::string> packagesMapping = spec.getPackagesMapping();
             for(auto [packageID,packageName]:packagesMapping){
+                Packages package = spec.getPackage(packageName);
                 selectPackages += "case " + std::to_string(packageID) + ":{\n";
-
+                selectPackages += packageName;
+                selectPackages += "Entity(data.data(),";
+                selectPackages += std::to_string(package.getSize());
+                selectPackages += ");\n";
                 selectPackages += "break;\n}\n";
             }
 
@@ -54,15 +58,20 @@ namespace DogGE{
             headerFile += "_f1_converter.h";
             std::string dbTable = "F1DataEntity";
             std::string entityClass = "F1DataEntity";
-            std::string selectPackages = "switch(packetId){\n";
+            std::string selectPackages = "DogGE::Database::AbstractEntity* packageEntity;\nswitch(packetId){\n";
 
             std::map<int,std::string> packagesMapping = spec.getPackagesMapping();
             for(auto [packageID,packageName]:packagesMapping){
+                Packages package = spec.getPackage(packageName);
                 selectPackages += "case " + std::to_string(packageID) + ":{\n";
+                selectPackages += "packageEntity = new ";
                 selectPackages += packageName;
-                selectPackages += "Entity(data);\n";
+                selectPackages += "Entity(data.data(),";
+                selectPackages += std::to_string(package.getSize());
+                selectPackages += ");\n";
                 selectPackages += "break;\n}\n";
             }
+            selectPackages += "output->persistData(packageEntity);\n delete packageEntity;\n";
 
             kainjow::mustache::data sourceData;
             sourceData.set("HEADER_FILE",headerFile);

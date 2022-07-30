@@ -11,20 +11,23 @@
  * 
  */
 
-#ifndef ____F1_DATA_ENTITY____
-#define ____F1_DATA_ENTITY____
+#ifndef ____SessionHistoryPackage_ENTITY____
+#define ____SessionHistoryPackage_ENTITY____
 #pragma once
 
 #include <stdint.h>
 #include <AbstractEntity.h>
 
+#include <Entity/HeaderEntity.h>
+#include <Entity/LapHistoryDataEntity.h>
+#include <Entity/TyreStintHistoryDataEntity.h>
 
 
 namespace DogGE{
     namespace F1_2022{
         class SessionHistoryPackageEntity: public DogGE::Database::AbstractEntity{
             private:
-            Header header;
+            HeaderEntity header;
 uint8_t carIdx;
 uint8_t numLaps;
 uint8_t numTyreStints;
@@ -32,13 +35,15 @@ uint8_t bestLapTimeLapNum;
 uint8_t bestSector1LapNum;
 uint8_t bestSector2LapNum;
 uint8_t bestSector3LapNum;
-LapHistoryData lapHistoryData[100];
-TyreStintHistoryData tyreStintsHistoryData[8];
+LapHistoryDataEntity lapHistoryData[100];
+TyreStintHistoryDataEntity tyreStintsHistoryData[8];
 
             public:
-            
+            SessionHistoryPackageEntity();
+SessionHistoryPackageEntity(char* rawData,int size,int offset=0);
 
-            void setHeader(Header header);
+
+            void setHeader(HeaderEntity header);
 void setCarIdx(uint8_t carIdx);
 void setNumLaps(uint8_t numLaps);
 void setNumTyreStints(uint8_t numTyreStints);
@@ -46,10 +51,10 @@ void setBestLapTimeLapNum(uint8_t bestLapTimeLapNum);
 void setBestSector1LapNum(uint8_t bestSector1LapNum);
 void setBestSector2LapNum(uint8_t bestSector2LapNum);
 void setBestSector3LapNum(uint8_t bestSector3LapNum);
-void setLapHistoryData(LapHistoryData* lapHistoryData);
-void setTyreStintsHistoryData(TyreStintHistoryData* tyreStintsHistoryData);
+void setLapHistoryData(int i,LapHistoryDataEntity lapHistoryData);
+void setTyreStintsHistoryData(int i,TyreStintHistoryDataEntity tyreStintsHistoryData);
 
-            Header getHeader();
+            HeaderEntity getHeader();
 uint8_t getCarIdx();
 uint8_t getNumLaps();
 uint8_t getNumTyreStints();
@@ -57,8 +62,8 @@ uint8_t getBestLapTimeLapNum();
 uint8_t getBestSector1LapNum();
 uint8_t getBestSector2LapNum();
 uint8_t getBestSector3LapNum();
-LapHistoryData* getLapHistoryData();
-TyreStintHistoryData* getTyreStintsHistoryData();
+LapHistoryDataEntity* getLapHistoryData();
+TyreStintHistoryDataEntity* getTyreStintsHistoryData();
 
 
             virtual std::string getTableName();
