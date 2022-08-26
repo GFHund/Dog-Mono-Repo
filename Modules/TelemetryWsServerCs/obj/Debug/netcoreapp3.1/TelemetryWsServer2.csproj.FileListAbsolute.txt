@@ -1,0 +1,13 @@
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.exe
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.deps.json
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.runtimeconfig.json
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.runtimeconfig.dev.json
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.dll
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\bin\Debug\netcoreapp3.1\TelemetryWsServer2.pdb
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.csprojAssemblyReference.cache
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.AssemblyInfoInputs.cache
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.AssemblyInfo.cs
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.csproj.CoreCompileInputs.cache
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.dll
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.pdb
+D:\Projekte\Dog-Mono-Repo\Modules\TelemetryWsServer2\obj\Debug\netcoreapp3.1\TelemetryWsServer2.genruntimeconfig.cache

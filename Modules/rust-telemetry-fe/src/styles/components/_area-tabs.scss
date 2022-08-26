@@ -1,0 +1,33 @@
+.telemetry-areas{
+    list-style: none;
+    display:flex;
+    padding:0;
+    margin:5px 0 0;
+    li{
+        padding:5px 15px 10px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        cursor: pointer;
+    }
+    .not-implemented{
+        text-decoration: line-through;
+    }
+}
+#telemetry-tab-telemetry{
+    //background-color:#0000cc;
+}
+#telemetry-tab-race-engineer{
+    //background-color:#006600;
+}
+#telemetry-tab-converter{
+    //background-color:#cc0000;
+}
+#telemetry-tab-recorder{
+    //background-color:#9f9f00;
+}
+.area-tab{
+    background-color:$primary;
+    &.active{
+        background-color:$primaryActive;
+    }
+}

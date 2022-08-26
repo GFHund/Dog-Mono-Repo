@@ -1,0 +1,73 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Projekte\\Dog-Mono-Repo\\Modules\\TelemetryWsServerCs\\TelemetryWsServer2.csproj": {}
+  },
+  "projects": {
+    "D:\\Projekte\\Dog-Mono-Repo\\Modules\\TelemetryWsServerCs\\TelemetryWsServer2.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projekte\\Dog-Mono-Repo\\Modules\\TelemetryWsServerCs\\TelemetryWsServer2.csproj",
+        "projectName": "TelemetryWsServer2",
+        "projectPath": "D:\\Projekte\\Dog-Mono-Repo\\Modules\\TelemetryWsServerCs\\TelemetryWsServer2.csproj",
+        "packagesPath": "C:\\Users\\PhilippGL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projekte\\Dog-Mono-Repo\\Modules\\TelemetryWsServerCs\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\PhilippGL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "SQLite": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

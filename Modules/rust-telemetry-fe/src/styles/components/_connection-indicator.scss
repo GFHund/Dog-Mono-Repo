@@ -1,0 +1,40 @@
+.telemetry-connection-indicator-container{
+    align-items: center;
+    justify-content: center;
+    display:inline-flex;
+    position:relative;
+    width:30px;
+    height:30px;
+}
+.telemetry-connection-indicator{
+    border-radius: 50%;
+    background-color:$red;
+    display:inline-block;
+    width:10px;
+    height:10px;
+    &.telemetry-backend-connected{
+        background-color:$green;
+    }
+}
+.telemetry-connection-menu{
+    position:absolute;
+    bottom:100%;
+    left:0;
+    background-color:$primary;
+    display:none;
+    &.telemetry-connection-menu-open{
+        display:block;
+    }
+    ul{
+        list-style: none;
+        padding:0;
+        margin:0;
+    }
+    li{
+        padding:5px 15px;
+        cursor: pointer;
+        &:hover{
+            background-color:$primaryActive;
+        }
+    }
+}

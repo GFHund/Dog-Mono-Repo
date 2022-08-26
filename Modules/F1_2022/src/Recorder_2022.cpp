@@ -38,7 +38,7 @@ namespace DogGE{
         }
         void Recorder_2022::producer(){
             DogGE::Network::UdpClient client;
-            client.init("127.0.0.1","20777");
+            client.init("127.0.0.1","9996");
             do{
                 try{
                     std::array<char,2000> buf = client.recvData<2000>();

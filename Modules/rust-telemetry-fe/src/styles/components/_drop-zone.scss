@@ -1,0 +1,8 @@
+.telemetry-drop-zone{
+    padding:50px 50px;
+    border:1px solid $primary;
+    display:inline-block;
+    &.file-over-zone{
+        border-color:#f00;
+    }
+}

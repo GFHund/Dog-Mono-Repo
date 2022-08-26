@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <main>
+      <div class="telemetry-area-switcher">
+          <ul class="telemetry-areas">
+              <li id="telemetry-tab-telemetry" class="area-tab active" data-target="#telemetry-content-telemetry,#telemetry-toolbar-telemetry">Telemetry</li>
+              <li id="telemetry-tab-race-engineer" class="area-tab not-implemented" data-target="#telemetry-content-race-engineer">Race Engineer</li>
+              <li id="telemetry-tab-converter" class="area-tab" data-target="#telemetry-content-converter">Converter</li>
+              <li id="telemetry-tab-recorder" class="area-tab not-implemented" data-target="#telemetry-content-recorder">Recorder</li>
+          </ul>
+      </div>
+      <div class="telemetry-toolbar">
+          <div id="telemetry-toolbar-telemetry">
+              <ul class="toolbar-btn-container">
+                  <li>
+                      <button class="file-open-btn">
+                          <icon-lazy-loader src="icons/file_open.svg" width="30px" height="30px" fill="#ff0" stroke="#000" />
+                      </button>
+                  </li>
+                  <li>
+                      <button id="wsTest">test</button>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="telemetry-main">
+          <div id="telemetry-content-telemetry">
+              <div class="telemetry-area-right">
+                  <canvas id="telemetry-area-right--canvas"></canvas>
+              </div>
+              <div class="telemetry-area-seperator" data-target=".telemetry-area-right"></div>
+              <div class="telemetry-area-left">
+                  telemetry-left
+              </div>
+          </div>
+          <div id="telemetry-content-race-engineer" style="display:none;">
+              raceEngineer
+          </div>
+          <div id="telemetry-content-converter" style="display:none;">
+              
+              <div class="converter-source file-open-container ">
+                  <button class="file-open-btn" id="converter-source-file" data-event="CONVERTER-FILE-SOURCE">Ursprung Datei auswählen</button>
+              </div>
+              <div class="converter-selector-container">
+                <select name="converter-type" id="converter-selector" disabled>
+                    
+                </select>
+              </div>
+              <div class="converter-target-container">
+                <button class="file-save-btn" id="converter-target-file" data-event="CONVERTER-FILE-TARGET" disabled>Zieldatei auswählen</button>
+              </div>
+              <div class="converter-start-btn-container">
+                <button id="converter-start-btn" disabled>Start Convert</button>
+              </div>
+              
+          </div>
+          <div id="telemetry-content-recorder" style="display:none;">
+              recorder
+          </div>
+      </div>
+      <div class="telemetry-status-bar">
+        <div class="telemetry-connection-indicator-container">
+            <span class="telemetry-connection-indicator"></span>
+            <div class="telemetry-connection-menu">
+                <ul>
+                    <li>Connect</li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

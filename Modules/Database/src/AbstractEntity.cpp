@@ -41,8 +41,12 @@ namespace DogGE{
             return ret;
         }
 
-        std::map<std::string,std::vector<AbstractEntity*>> AbstractEntity::get1ToNRelations(){}
-        std::map<std::string,AbstractEntity*> AbstractEntity::getNTo1Relations(){}
+        std::map<std::string,std::vector<AbstractEntity*>> AbstractEntity::get1ToNRelations(){
+            return std::map<std::string,std::vector<AbstractEntity*>>();
+        }
+        std::map<std::string,AbstractEntity*> AbstractEntity::getNTo1Relations(){
+            return std::map<std::string,AbstractEntity*>();
+        }
 
         int AbstractEntity::getId(){
             return this->id;

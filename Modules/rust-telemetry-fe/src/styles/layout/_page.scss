@@ -1,0 +1,30 @@
+*{
+    box-sizing: inherit;
+}
+
+html{
+    box-sizing: border-box;
+    font-size:10px;
+}
+
+body{
+    background-color:$primaryBgColor;
+    color:$primaryFontColor;
+    margin:0;
+    font-size:16px;
+}
+main{
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:40px 30px calc(100vh - 40px - 30px - 30px) 30px;
+    //overflow: hidden;
+}
+.telemetry-area-switcher{
+    border-bottom:1px solid $primary;
+}
+.telemetry-toolbar{
+    border-bottom:1px solid $primary;
+}
+.telemetry-status-bar{
+    border-top:1px solid $primary;
+}

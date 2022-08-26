@@ -8,8 +8,8 @@
 bool bCloseProgram;
 
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType){
-    std::cout << "called ctrl handler" << std::endl;
     if(fdwCtrlType == CTRL_C_EVENT){
+        std::cout << "Exit Program" << std::endl;
         bCloseProgram = true;
         return true;
     }

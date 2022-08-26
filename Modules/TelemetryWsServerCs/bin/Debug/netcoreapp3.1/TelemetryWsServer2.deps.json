@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "TelemetryWsServer2/1.0.0": {
+        "runtime": {
+          "TelemetryWsServer2.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TelemetryWsServer2/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
