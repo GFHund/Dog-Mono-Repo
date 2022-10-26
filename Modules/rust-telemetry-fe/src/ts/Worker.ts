@@ -11,7 +11,7 @@ onmessage = function(ev:MessageEvent){
         ws.send('CONVERT OPTIONS '+ev.data.file);
     }
     if(ev.data.type === "WebsocketOpen"){
-        ws = new WebSocket("ws://127.0.0.1");
+        ws = new WebSocket("ws://127.0.0.1:8080");
         ws.onerror = (evt) => {
             console.error(evt);
         };

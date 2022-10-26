@@ -8,7 +8,9 @@ namespace DogGE{
     namespace Network{
         class WsServer:public TcpServer{
             public:
-            ClientConnection acceptConnection() override;
+            ClientConnection* acceptConnection() override;
+
+            std::string convertToString();
         };
     }
 }

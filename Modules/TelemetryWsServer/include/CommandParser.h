@@ -6,6 +6,7 @@
 namespace DogGE{
     namespace TelemetryWsServer{
         class CommandParser{
+            public:
             AbstractCommand* parse(std::array<char,2000> string);
         };
     }

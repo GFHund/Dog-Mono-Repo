@@ -8,6 +8,8 @@ SET(TELEMETRY_WS_SERVER_SOURCE
 src/main.cpp
 src/TelemetryController.cpp
 src/CommandParser.cpp
+src/ConvertCommand.cpp
+src/ConvertOptionsCommand.cpp
 )
 
 add_executable(TelemetryWsServer ${TELEMETRY_WS_SERVER_SOURCE})

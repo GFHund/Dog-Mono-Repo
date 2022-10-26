@@ -1,13 +1,8 @@
 #include <NetworkUtility.h>
 
+
 namespace DogGE{
     namespace Network{
-        /*
-        template <std::size_t T>
-        std::string NetworkUtility::encodeDataToBase64(std::array<char,T> data){
-
-        }
-        */
         std::string NetworkUtility::encodeStringToBase64(std::string string){
             int padding = (int)(3-(string.size() % 3));
             if(padding == 1){
@@ -18,8 +13,6 @@ namespace DogGE{
             } else {
                 padding = 0;
             }
-            printf("string.size(): %i\n",string.size());
-            printf("padding: %i\n",padding);
             std::string ret = "";
             for(int i=0;i<string.size();i+=3){
                 bool end = false;
@@ -36,11 +29,10 @@ namespace DogGE{
                 
                 for(int j = 0;j<4;j++){
                     if(end){
-                        printf("j: %i\n",j);
                         if(padding == 2 && j > 1){
                             break;
                         }
-                        if(padding == 1 && j > 3){
+                        if(padding == 1 && j >= 3){
                             break;
                         }
                     }

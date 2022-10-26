@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 SET(SOURCE 
     src/AssettoCorsaRecorder.cpp
+    src/AssettoCorsaCompatizioneRecorder.cpp
 )
 add_library(recorders STATIC ${SOURCE})
 include_directories("./include" "../Database/include" "../TelemetryInterfaces/include" "../Network/include")

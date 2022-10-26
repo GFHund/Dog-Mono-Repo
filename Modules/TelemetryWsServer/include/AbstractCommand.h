@@ -5,7 +5,7 @@ namespace DogGE{
     namespace TelemetryWsServer{
         class AbstractCommand{
             public:
-            enum TYPE{
+            enum COMMAND_TYPE{
                 OPEN_FILE,
                 DRAW_DIAGRAM,
                 GET_POINTS,
@@ -14,6 +14,7 @@ namespace DogGE{
                 QUIT,
                 CLOSE_FILE
             };
+            virtual COMMAND_TYPE getCommandType() = 0;
         };
     }
 }

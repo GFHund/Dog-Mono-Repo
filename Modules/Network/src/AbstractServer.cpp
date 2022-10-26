@@ -32,7 +32,20 @@ namespace DogGE{
                 throw NetworkException(errorCode);
             }
         }
-        ClientConnection AbstractServer::acceptConnection(){
+        ClientConnection* AbstractServer::acceptConnection(){
+            FD_SET fdSet;
+            FD_ZERO(&fdSet);
+            FD_SET(mSocket,&fdSet);
+            timeval time;
+            time.tv_sec = 1;
+            time.tv_usec = 0;
+            int selectRet = select(0,&fdSet,NULL,NULL,&time);
+            if(selectRet == 0){
+                return nullptr;
+            }
+            if(!FD_ISSET(mSocket,&fdSet)){
+                return nullptr;
+            }
             SOCKET clientSocket = INVALID_SOCKET;
             clientSocket = accept(mSocket,NULL,NULL);
             if(clientSocket == INVALID_SOCKET){
@@ -43,7 +56,7 @@ namespace DogGE{
                 //return 1;
                 throw NetworkException(errorCode);
             }
-            return ClientConnection(clientSocket);
+            return new ClientConnection(clientSocket);
         }
     }
 }

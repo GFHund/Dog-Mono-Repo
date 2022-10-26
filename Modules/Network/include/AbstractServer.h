@@ -12,7 +12,7 @@ namespace DogGE{
             void initServer(NetworkType type,IP_Type ipType,std::string port);
             public:
             void listenNetwork();
-            virtual ClientConnection acceptConnection();
+            virtual ClientConnection* acceptConnection();
         };
     }
 }

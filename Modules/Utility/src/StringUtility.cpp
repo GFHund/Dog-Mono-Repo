@@ -32,7 +32,7 @@ namespace DogGE{
                         if(padding == 2 && j > 1){
                             break;
                         }
-                        if(padding == 1 && j > 3){
+                        if(padding == 1 && j >= 3){
                             break;
                         }
                     }
@@ -135,5 +135,22 @@ namespace DogGE{
             return ret;
         }
         
+        std::string StringUtility::trim(std::string str,char c){
+            int from=-1,to=-1;
+            for(int i=0;i<str.size();i++){
+                if(str[i] != c){
+                    from = i;
+                    break;
+                }
+            }
+            for(int i=str.size()-1;i>0;i--){
+                if(str[i] != c){
+                    to = i;
+                    break;
+                }
+            }
+            to++;
+            return str.substr(from,to-from);
+        }
     }
 }

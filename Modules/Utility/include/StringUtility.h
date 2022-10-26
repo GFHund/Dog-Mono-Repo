@@ -17,6 +17,7 @@ namespace DogGE{
             static std::string replaceChar(std::string haystack,char search,char replace);
             static std::string toSnakeCase(std::string str);
             static std::string toCamelCase(std::string str,bool upperCamel);
+            static std::string trim(std::string str,char c = ' ');
         };
     }
 }

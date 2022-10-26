@@ -127,3 +127,21 @@ TEST(StringUtility,toCamelCase6){
     std::string result = DogGE::Utility::StringUtility::toCamelCase(test,true);
     EXPECT_STREQ(result.c_str(),expectedResult.c_str());
 }
+TEST(StringUtility,trim1){
+    std::string test = "   Hallo   ";
+    std::string expectedResult = "Hallo";
+    std::string result = DogGE::Utility::StringUtility::trim(test);
+    EXPECT_STREQ(result.c_str(),expectedResult.c_str());
+}
+TEST(StringUtility,trim2){
+    std::string test = "Hallo   ";
+    std::string expectedResult = "Hallo";
+    std::string result = DogGE::Utility::StringUtility::trim(test);
+    EXPECT_STREQ(result.c_str(),expectedResult.c_str());
+}
+TEST(StringUtility,trim3){
+    std::string test = "   Hallo";
+    std::string expectedResult = "Hallo";
+    std::string result = DogGE::Utility::StringUtility::trim(test);
+    EXPECT_STREQ(result.c_str(),expectedResult.c_str());
+}

@@ -1,3 +1,6 @@
+#ifndef __ASSETTO_CORSA__
+#define __ASSETTO_CORSA__
+
 #include <ProducerConsumerRecorder.h>
 #include <queue>
 #include <Database.h>
@@ -19,3 +22,4 @@ namespace DogGE{
         };
     }
 }
+#endif

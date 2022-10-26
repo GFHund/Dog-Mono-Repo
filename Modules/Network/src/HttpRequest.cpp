@@ -3,6 +3,7 @@
 #include <Exceptions/TransitionNotFoundException.h>
 #include <Exceptions/HttpRequestParseException.h>
 #include <Exceptions/HttpHeaderNotFoundException.h>
+#include <iostream>
 
 namespace DogGE{
     namespace Network{
@@ -136,7 +137,22 @@ namespace DogGE{
                 buffer = "";
             });
             sm.addTransition(headerFieldValueState,headerFieldValueState,[](char i)->bool{
-                return (i >= 0x41 && i<=0x5A) || (i>=0x61 && i<=0x7A) || (i>= '0' && i <= '9') || i == 0x2d || i == 0x20 || i == '.' || i==':';
+                return (i >= 0x41 && i<=0x5A) || //a-z
+                (i>=0x61 && i<=0x7A) || //A-Z
+                (i>= '0' && i <= '9') || 
+                i == 0x2d || 
+                i == 0x20 || 
+                i == '.' || 
+                i==':' || 
+                i == '/' ||
+                i == '(' ||
+                i == ')' ||
+                i == ';' ||
+                i == ',' ||
+                i == '=' ||
+                i == '_' ||
+                i == '-' ||
+                i == '+';
             },[&](char i){
                 buffer += i;
             });
@@ -166,22 +182,14 @@ namespace DogGE{
             },[&](char i){
                 buffer ="";
             });
-            sm.addTransition(beginBodyFieldState,beginBodyFieldState,[=](char i)->bool{
-                if(buffer.size() == 0){
-                    return i == 0x0A;// \n
-                } else {
-                    return false;
-                }
-            },[&](char i){
-                buffer += i;
-            });
             sm.addTransition(beginBodyFieldState,bodyState,[=](char i)->bool{
-                if(buffer.size() >= 1){
-                    return true;
-                }
-                return false;
+                return i == 0x0A;// \n
             },[&](char i){
                 buffer = "";
+            });
+            sm.addTransition(bodyState,bodyState,[=](char i)->bool{
+                return true;
+            },[&](char i){
                 buffer += i;
             });
             for(int i=0;i<message.size();i++){
