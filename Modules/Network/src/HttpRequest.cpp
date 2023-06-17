@@ -51,6 +51,24 @@ namespace DogGE{
             this->mBody = body;
         }
 
+        std::string HttpRequest::getRequestString(){
+            std::string ret = this->getMethod();
+            ret += " ";
+            ret += this->getEndpoint();
+            ret += " HTTP/";
+            ret += this->getHttpVersion();
+            ret += "1.1\r\n";
+            for(auto iter = this->mHttpHeader.begin();iter != this->mHttpHeader.end();iter++){
+                ret += iter->first;
+                ret += ": ";
+                ret += iter->second;
+                ret += "\r\n";
+            }
+            ret += "\r\n";
+            ret += this->getBody();
+            return ret;
+        }
+
         HttpRequest HttpRequest::parseRequest(std::string message){
             HttpRequest ret;
             StateMachine::StateMachine<char> sm;

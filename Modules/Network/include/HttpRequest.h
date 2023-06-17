@@ -30,6 +30,7 @@ namespace DogGE{
             std::string getBody();
             void setBody(std::string body);
 
+            std::string getRequestString();
             static HttpRequest parseRequest(std::string message);
 
         };

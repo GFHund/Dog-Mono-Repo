@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="column1" #column1 [style.flex-basis]="''+this.currentWidth+'%'">
+        <ng-content></ng-content>
+    </div>
+    <div class="seperator"(pointerdown)="this.onStartDrag($event)" #seperator></div>
+    <div class="column2" #column2>
+        <ng-content select="[slot2]"></ng-content>
+    </div>
+</div>

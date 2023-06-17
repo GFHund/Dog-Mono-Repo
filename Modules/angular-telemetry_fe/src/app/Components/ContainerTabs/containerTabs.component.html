@@ -1,0 +1,14 @@
+<div class="container-tabs">
+    <div class="tabs-titles-container">
+        <ul class="tabs-titles">
+            <li *ngFor="let tab of paneTitles;index as i" (click)="this.onTabClick(i)" class="tab-element" [class.active]="i==activeTab">
+                {{tab}}
+            </li>
+        </ul>
+    </div>
+    <div class="tabs-contents">
+        <div *ngFor="let tab of elements;index as i">
+            <ng-content [select]="'[id='+i+']'"></ng-content>
+        </div>
+    </div>
+</div>

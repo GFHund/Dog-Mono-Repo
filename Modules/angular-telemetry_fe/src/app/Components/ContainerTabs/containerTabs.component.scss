@@ -1,0 +1,23 @@
+$primary:#222;
+$primaryActive:#333;
+.tabs-titles{
+    list-style: none;
+    display:flex;
+    padding:0;
+    margin:5px 0 0;
+    li{
+        padding:5px 15px 10px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        cursor: pointer;
+    }
+    .not-implemented{
+        text-decoration: line-through;
+    }
+}
+.tab-element{
+    background-color:$primary;
+    &.active{
+        background-color:$primaryActive;
+    }
+}

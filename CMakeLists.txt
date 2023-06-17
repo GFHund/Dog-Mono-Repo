@@ -33,6 +33,7 @@ add_subdirectory("Modules/TelemetryConverter")
 add_subdirectory("Modules/F1GameParserGenerator")
 #add_subdirectory("Modules/CTelemetry2Electron")
 add_subdirectory("Modules/TelemetryWsServer")
+add_subdirectory("Modules/WebsocketClient")
 
 
 if(MSVC)

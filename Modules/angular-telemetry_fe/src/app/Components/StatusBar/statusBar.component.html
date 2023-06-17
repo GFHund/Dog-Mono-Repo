@@ -1,0 +1,10 @@
+<div class="telemetry-status-bar">
+    <div class="telemetry-connection-indicator-container">
+        <span class="telemetry-connection-indicator" [class.telemetry-backend-connected]="this.isConnected" #indicator (click)="this.onStatusIndicatorClick()"></span>
+        <div class="telemetry-connection-menu" [class.telemetry-connection-menu-open]="this.showMenu">
+            <ul>
+                <li (click)="this.onConnectClick()">{{buttonValue}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

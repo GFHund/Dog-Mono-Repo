@@ -1,0 +1,19 @@
+<div id="telemetry-content-converter">
+              
+    <div class="converter-source file-open-container ">
+        <button class="file-open-btn" id="converter-source-file" data-event="CONVERTER-FILE-SOURCE" (click)="this.onChooseSourceFile()">Ursprung Datei auswählen</button>
+        {{sourceFile}}
+    </div>
+    <div class="converter-selector-container">
+      <select name="converter-type" id="converter-selector" disabled>
+          
+      </select>
+    </div>
+    <div class="converter-target-container">
+      <button class="file-save-btn" id="converter-target-file" data-event="CONVERTER-FILE-TARGET" disabled>Zieldatei auswählen</button>
+    </div>
+    <div class="converter-start-btn-container">
+      <button id="converter-start-btn" disabled>Start Convert</button>
+    </div>
+    
+</div>
