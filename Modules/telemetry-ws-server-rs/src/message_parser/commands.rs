@@ -27,7 +27,8 @@ pub struct CloseCommandParams{
 pub struct GenerateSetupParam{
     pub game: String,
     pub car: String,
-    pub track: String
+    pub track: String,
+    pub number_setup: i32
 }
 
 pub enum Commands{

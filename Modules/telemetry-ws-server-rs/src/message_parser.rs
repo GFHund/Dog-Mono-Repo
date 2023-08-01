@@ -5,7 +5,7 @@ use state_machine_rs::{StateMachine, StateMachineError};
 use crate::message_parser::commands::OpenCommandParams;
 
 use self::commands::{Commands, ConvertOptionsCommandParams,ConvertCommandParams, CloseCommandParams, GenerateSetupParam};
-use self::commands::Commands::{Open,NotInitialized,ConvertOptions,Close};
+use self::commands::Commands::{Open,NotInitialized,ConvertOptions,Close,GenerateSetup};
 
 mod commands;
 
@@ -37,7 +37,7 @@ pub fn parse(str:&str)->Result<Commands, String>{
                     Keywords::ConvertKeyword => convert_keyword(tokens, 0),
                     Keywords::OpenKeyword => open_keyword(tokens, 0),
                     Keywords::CloseKeyword => close_keyword(tokens, 0),
-                    Keywords::GenerateKeyword => generateKeyword(tokens,0),
+                    Keywords::GenerateKeyword => generate_keyword(tokens,0),
                     _ => Err("Right Command not found".to_string())
                 }
             } else {
@@ -133,13 +133,15 @@ fn close_keyword(keywords:Vec<Keywords>,index:i32)->Result<Commands, String>{
     }
     Ok(Close(ret))
 }
-fn generateKeyword(keywords:Vec<Keywords>,index:i32)->Result<Commands,String>{
+/* GENERATE SETUP [GAME] [CAR] [TRACK] [NumberOfSetups] [OPTIONS] */
+fn generate_keyword(keywords:Vec<Keywords>,index:i32)->Result<Commands,String>{
     //let mut ret = GenerateSetupParam{}
     let first = keywords.get(0);
     let second = keywords.get(1);
-    let thirdGame = keywords.get(2);
-    let fourthCar = keywords.get(3);
-    let fivethTrack = keywords.get(4);
+    let third_game = keywords.get(2);
+    let fourth_car = keywords.get(3);
+    let fiveth_track = keywords.get(4);
+    let sixth_number_of_setups = keywords.get(5);
 
     if let Some(a) = first{
         if Keywords::GenerateKeyword != *a{
@@ -151,21 +153,36 @@ fn generateKeyword(keywords:Vec<Keywords>,index:i32)->Result<Commands,String>{
             return Err("Generate Setup should have setup as second keyword".to_string());
         }
     }
-    let mut ret = GenerateSetupParam{car:"".to_string(),game:"".to_string(),track:"".to_string()};
-    if let Some(game) = thirdGame{
+    let mut ret = GenerateSetupParam{car:"".to_string(),game:"".to_string(),track:"".to_string(),number_setup:0};
+    if let Some(game) = third_game{
         if let Keywords::String(game_str) = game{
             ret.game = game_str.clone();
         } else {
             return Err("game Param is not a String".to_string());
         }
     }
-    if let Some(car) = fourthCar{
+    if let Some(car) = fourth_car{
         if let Keywords::String(car_str) = car{
             ret.car = car_str.clone();
         } else {
             return Err("car Param is not a String".to_string());
         }
     }
+    if let Some(track) = fiveth_track{
+        if let Keywords::String(track_str) = track{
+            ret.track = track_str.clone();
+        } else {
+            return Err("track Param is not a String".to_string());
+        }
+    }
+    if let Some(number_of_setups) = sixth_number_of_setups{
+        if let Keywords::Number(setups) = number_of_setups{
+            ret.number_setup = *setups;
+        } else {
+            return Err("Number of Setups is not a Number".to_string());
+        }
+    }
+    Ok(GenerateSetup(ret))
 }
 
 fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
@@ -312,6 +329,7 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
                 }
             }
         }
+        print!("{}",sm.get_current_state_id());
         if let Ok(_) = result {
             if sm.get_current_state_id() == close_state {
                 ret.push(Keywords::CloseKeyword);
@@ -366,7 +384,21 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     use std::result;
 
     use super::{parse, parseToken, Keywords};
-    use crate::message_parser::commands::Commands::{Open,Convert,ConvertOptions,Close};
+    use crate::message_parser::commands::Commands::{Open,Convert,ConvertOptions,Close,GenerateSetup};
+    /*
+    ConvertKeyword,
+    OptionKeyword,
+    File(String),
+    String(String),
+    OpenKeyword,
+    IntoKeyword,
+    CloseKeyword,
+    RecordKeyword,
+    GenerateKeyword,
+    SetupKeyword,
+    JsonStringKeyword(String),
+    Number(i32)
+     */
 
     #[test]
     fn open_keyword_test(){
@@ -529,7 +561,7 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
         if let Ok(res) = result {
             let first_into = res.get(0);
             if let Some(first) = first_into{
-                if let Keywords::RecordKeyword = first{
+                if let Keywords::GenerateKeyword = first{
                 } else {
                     assert!(false,"wrong Keyword found")
                 }
@@ -541,6 +573,25 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
         }
     }
 
+
+    #[test]
+    fn generate_keyword_test(){
+        let chars: std::str::Chars<'_> = "GENERATE".chars();
+        let result = parseToken(chars);
+        if let Ok(res) = result {
+            let first_into = res.get(0);
+            if let Some(first) = first_into{
+                if let Keywords::RecordKeyword = first{
+                } else {
+                    assert!(false,"wrong Keyword found")
+                }
+            } else {
+                assert!(false,"none found")
+            }
+        } else if let Err(error) = result {
+            assert!(false,"Keyword not found {}",error)
+        }
+    }
     /*
     OPEN [file];
     CONVERT [file1] INTO [file2] USING [converter] WITH [converter config FILE | (config=>value,...)];
@@ -627,6 +678,26 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
                 match command {
                     ConvertOptions(convert_options_params) => {
                         assert_eq!(convert_options_params.file,"test.sqlite");
+                        //assert!(true)
+                    },
+                    _ => assert!(false,"wrong command returned")
+                }
+            },
+            _ => assert!(false,"Error at Function")
+        }
+    }
+
+    #[test]
+    fn generate_setups_test_1(){
+        let result = parse("GENERATE SETUP ACC AudiR8Evo2 Nürburgring 12;");
+        match result{
+            Ok(command) => {
+                match command {
+                    GenerateSetup(generate_setup_params) => {
+                        assert_eq!(generate_setup_params.game,"ACC");
+                        assert_eq!(generate_setup_params.car,"AudiR8Evo2");
+                        assert_eq!(generate_setup_params.track,"Nürburgring");
+                        assert_eq!(generate_setup_params.number_setup,12);
                         //assert!(true)
                     },
                     _ => assert!(false,"wrong command returned")
