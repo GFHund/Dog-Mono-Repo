@@ -30,6 +30,9 @@ pub struct GenerateSetupParam{
     pub track: String,
     pub number_setup: i32
 }
+pub struct RecordParam{
+    pub game:String
+}
 
 pub enum Commands{
     NotInitialized,
@@ -37,5 +40,8 @@ pub enum Commands{
     ConvertOptions(ConvertOptionsCommandParams),
     Open(OpenCommandParams),
     Close(CloseCommandParams),
-    GenerateSetup(GenerateSetupParam)
+    GenerateSetup(GenerateSetupParam),
+    RecordOptions,
+    RecordStart(RecordParam),
+    RecordStop(RecordParam)
 }

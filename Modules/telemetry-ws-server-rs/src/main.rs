@@ -1,11 +1,14 @@
 use std::{env, net::SocketAddr};//io::Error,
 
-use futures_util::{future, StreamExt, TryStreamExt};
+use futures_util::{future, StreamExt, TryStreamExt, SinkExt};
 use log::*;
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::{Error,Result};
 use serde_json::{Value};
+use message_parser::commands::Commands::{RecordStart,RecordOptions,GenerateSetup};
+use record_hdl::{record_start,record_end};
 mod message_parser;
+mod record_hdl;
 
 #[tokio::main]
 async fn main() -> Result<(),Error> {
@@ -47,6 +50,8 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
     let mut ws_stream = tokio_tungstenite::accept_async(stream)
     .await.expect("Error during the websocket handshake occured");
     info!("New Websocket connection:{}",addr);
+
+    let (write,read) = ws_stream.split();
     
     while let Some(msg) = ws_stream.next().await {
         let msg = msg?;
@@ -56,10 +61,21 @@ async fn handle_connection(peer: SocketAddr, stream: TcpStream) -> Result<()> {
             //let json = jsonResult.unwrap_or("".to_string());
 
             //let json = jsonResult?;
+            //write.try_into()
+            //ws_stream.send(item)
 
             let command_result = msg.to_text();
             let command = command_result.unwrap_or("");
-            message_parser::parse(command);
+            let result = message_parser::parse(command);
+            if let Ok(command) = result{
+                match command{
+                    RecordStart(param) => record_hdl::record_start(param),
+                    RecordOptions => Ok(()),
+                    GenerateSetup(_param) => Ok(()),
+                    _ => Err("Command not found or is not implemented".to_string())
+                };
+            }
+            ws_stream.
         }
     }
     Ok(())

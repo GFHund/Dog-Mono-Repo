@@ -4,10 +4,10 @@ use state_machine_rs::{StateMachine, StateMachineError};
 
 use crate::message_parser::commands::OpenCommandParams;
 
-use self::commands::{Commands, ConvertOptionsCommandParams,ConvertCommandParams, CloseCommandParams, GenerateSetupParam};
-use self::commands::Commands::{Open,NotInitialized,ConvertOptions,Close,GenerateSetup};
+use self::commands::{Commands, ConvertOptionsCommandParams,ConvertCommandParams, CloseCommandParams, GenerateSetupParam, RecordParam};
+use self::commands::Commands::{Open,NotInitialized,ConvertOptions,Close,GenerateSetup,RecordStart,RecordStop};
 
-mod commands;
+pub mod commands;
 
 #[derive(PartialEq)]
 enum Keywords {
@@ -21,6 +21,8 @@ enum Keywords {
     RecordKeyword,
     GenerateKeyword,
     SetupKeyword,
+    StartKeyword,
+    StopKeyword,
     JsonStringKeyword(String),
     Number(i32)
 }
@@ -38,6 +40,7 @@ pub fn parse(str:&str)->Result<Commands, String>{
                     Keywords::OpenKeyword => open_keyword(tokens, 0),
                     Keywords::CloseKeyword => close_keyword(tokens, 0),
                     Keywords::GenerateKeyword => generate_keyword(tokens,0),
+                    Keywords::RecordKeyword => record_keyword(tokens,0),
                     _ => Err("Right Command not found".to_string())
                 }
             } else {
@@ -184,55 +187,109 @@ fn generate_keyword(keywords:Vec<Keywords>,index:i32)->Result<Commands,String>{
     }
     Ok(GenerateSetup(ret))
 }
-
+/*
+ * RECORD string
+ * RECORD OPTIONS 
+ */
+fn record_keyword(keywords:Vec<Keywords>,index:i32)->Result<Commands,String>{
+    let first = keywords.get(0);
+    let second = keywords.get(1);
+    let third = keywords.get(2);
+    if let Some(a) = first{
+        if Keywords::RecordKeyword != *a{
+            return Err("Record should start with Keyword Record".to_string());
+        }
+    }
+    
+    if let Some(a) = second {
+        return match *a{
+            Keywords::OptionKeyword => Ok(Commands::RecordOptions),
+            Keywords::StartKeyword => record_start_keyword(third),
+            Keywords::StopKeyword => record_stop_keyword(third),
+            _ => Err("Syntax Error: Unexpected Symbol".to_string())
+        };
+    } else {
+        Err("Syntax Error: expected Symbols not found".to_string())
+    }
+}
+fn record_start_keyword(third:Option<&Keywords>)->Result<Commands,String>{
+    if let Some(a) = third{
+        if let Keywords::String(game) = a {
+            let ret = RecordParam{game:game.clone()};
+            return Ok(RecordStart(ret));
+        } else {
+            Err("Syntax Error: Unexpected Symbol".to_string())
+        }
+    } else {
+        Err("Syntax Error: expected Symbols not found".to_string())
+    }
+}
+fn record_stop_keyword(third:Option<&Keywords>)->Result<Commands,String>{
+    if let Some(a) = third{
+        if let Keywords::String(game) = a {
+            let ret = RecordParam{game:game.clone()};
+            return Ok(RecordStop(ret));
+        } else {
+            Err("Syntax Error: Unexpected Symbol".to_string())
+        }
+    } else {
+        Err("Syntax Error: expected Symbols not found".to_string())
+    }
+}
 fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     let mut ret:Vec<Keywords> = Vec::new();
     
     let mut sm:StateMachine<char> = StateMachine::new();
 
-    let start_state = sm.add_state(None);
-    let c_state = sm.add_state(None);
-    let cl_state = sm.add_state(None);
-    let clo_state = sm.add_state(None);
-    let clos_state = sm.add_state(None);
-    let close_state = sm.add_state(None);
-    let co_state = sm.add_state(None);
-    let con_state = sm.add_state(None);
-    let conv_state = sm.add_state(None);
-    let conve_state = sm.add_state(None);
-    let conver_state = sm.add_state(None);
-    let convert_state = sm.add_state(None);
-    let o_state = sm.add_state(None);
-    let op_state = sm.add_state(None);
-    let ope_state = sm.add_state(None);
-    let open_state = sm.add_state(None);
-    let opt_state = sm.add_state(None);
-    let opti_state = sm.add_state(None);
-    let optio_state = sm.add_state(None);
-    let option_state = sm.add_state(None);
-    let r_state = sm.add_state(None);
-    let re_state = sm.add_state(None);
-    let rec_state = sm.add_state(None);
-    let reco_state = sm.add_state(None);
-    let recor_state = sm.add_state(None);
-    let record_state = sm.add_state(None);
-    let i_state = sm.add_state(None);
-    let in_state = sm.add_state(None);
-    let int_state = sm.add_state(None);
-    let into_state = sm.add_state(None);
-    let g_state = sm.add_state(None);
-    let ge_state = sm.add_state(None);
-    let gen_state = sm.add_state(None);
-    let gene_state = sm.add_state(None);
-    let gener_state = sm.add_state(None);
-    let genera_state = sm.add_state(None);
-    let generat_state = sm.add_state(None);
-    let generate_state = sm.add_state(None);
+    let start_state = sm.add_state(None);//0
+    let c_state = sm.add_state(None);//1
+    let cl_state = sm.add_state(None);//2
+    let clo_state = sm.add_state(None);//3
+    let clos_state = sm.add_state(None);//4
+    let close_state = sm.add_state(None);//5
+    let co_state = sm.add_state(None);//6
+    let con_state = sm.add_state(None);//7
+    let conv_state = sm.add_state(None);//8
+    let conve_state = sm.add_state(None);//9
+    let conver_state = sm.add_state(None);//10
+    let convert_state = sm.add_state(None);//11
+    let o_state = sm.add_state(None);//12
+    let op_state = sm.add_state(None);//13
+    let ope_state = sm.add_state(None);//14
+    let open_state = sm.add_state(None);//15
+    let opt_state = sm.add_state(None);//16
+    let opti_state = sm.add_state(None);//17
+    let optio_state = sm.add_state(None);//18
+    let option_state = sm.add_state(None);//19
+    let r_state = sm.add_state(None);//20
+    let re_state = sm.add_state(None);//21
+    let rec_state = sm.add_state(None);//22
+    let reco_state = sm.add_state(None);//23
+    let recor_state = sm.add_state(None);//24
+    let record_state = sm.add_state(None);//25
+    let i_state = sm.add_state(None);//26
+    let in_state = sm.add_state(None);//27
+    let int_state = sm.add_state(None);//28
+    let into_state = sm.add_state(None);//29
+    let g_state = sm.add_state(None);//30
+    let ge_state = sm.add_state(None);//31
+    let gen_state = sm.add_state(None);//32
+    let gene_state = sm.add_state(None);//33
+    let gener_state = sm.add_state(None);//34
+    let genera_state = sm.add_state(None);//35
+    let generat_state = sm.add_state(None);//36
+    let generate_state = sm.add_state(None);//37
     let s_state = sm.add_state(None);
     let se_state = sm.add_state(None);
     let set_state = sm.add_state(None);
     let setu_state = sm.add_state(None);
     let setup_state = sm.add_state(None); 
+    let st_state = sm.add_state(None);
+    let sta_state = sm.add_state(None);
+    let star_state = sm.add_state(None);
+    let start_state = sm.add_state(None);
+    let sto_state = sm.add_state(None);
+    let stop_state = sm.add_state(None);
     let string_start = sm.add_state(None);
     let string_middle = sm.add_state(None);
     let string_end = sm.add_state(None);
@@ -297,6 +354,12 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     sm.add_transition(se_state,set_state,Box::new(|c,_b|(*c) == 't'||(*c)=='T'),Box::new(|_c,_b|()));
     sm.add_transition(set_state,setu_state,Box::new(|c,_b|(*c)=='u'||(*c)=='U'),Box::new(|_c,_b|()));
     sm.add_transition(setu_state,setup_state,Box::new(|c,_b|(*c)=='p'||(*c)=='P'),Box::new(|_c,_b|()));
+    sm.add_transition(s_state,st_state,Box::new(|c,_b|(*c) == 't' || (*c) == 'T'),Box::new(|_c,_b|()));
+    sm.add_transition(st_state,sta_state,Box::new(|c,_b|(*c)=='a'||(*c)=='A'),Box::new(|_c,_b|()));
+    sm.add_transition(sta_state,star_state,Box::new(|c,_b|(*c)=='r'||(*c)=='R'),Box::new(|_c,_b|()));
+    sm.add_transition(star_state,start_state,Box::new(|c,_b|(*c)=='t'||(*c)=='T'),Box::new(|_c,_b|()));
+    sm.add_transition(st_state,sto_state,Box::new(|c,_b|(*c)=='o'||(*c)=='O'),Box::new(|_c,_b|()));
+    sm.add_transition(sto_state,stop_state,Box::new(|c,_b|(*c)=='p'||(*c)=='P'),Box::new(|_c,_b|()));
 
     sm.add_transition(start_state,json_string,Box::new(|c,_b|(*c) == '{'),Box::new(|_c,_b|()));
     sm.add_transition(json_string,json_string,Box::new(|c,_b|(*c)!='}'),Box::new(|_c,_b|()));
@@ -309,6 +372,7 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     sm.add_transition(string_middle,string_end,Box::new(|c,_b|(*c) == '"'),Box::new(|_c,b|{b.pop();}));
 
     sm.add_transition(start_state, number, Box::new(|c,_b|(*c) >= '0' && (*c) <= '9'), Box::new(|_c,_b|()));
+    sm.add_transition(number,number,Box::new(|c,_b|(*c) > '0' && (*c) <= '9'),Box::new(|_c,_b|()));
     sm.add_transition(number,number_end,Box::new(|c,_b|(*c) < '0' || (*c) > '9'),Box::new(|_c,_b|()));
 
     sm.add_transition(start_state,file_state,Box::new(|c,_buffer|(*c) == '.'||(*c) == '/' ),Box::new(|_c,_buffer|()));
@@ -322,14 +386,14 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
         if let Err(err) = result {
             match err {
                 StateMachineError::TransitionNotFound => {
-                    return Err(format!("Syntax Error at position {}",i).to_string());
+                    return Err(format!("Syntax Error at position {}(char:{})",i,char).to_string());
                 }
                 StateMachineError::StateNotFound => {
                     return Err("State not Found".to_string());
                 }
             }
         }
-        print!("{}",sm.get_current_state_id());
+        print!("current state id{}\n",sm.get_current_state_id());
         if let Ok(_) = result {
             if sm.get_current_state_id() == close_state {
                 ret.push(Keywords::CloseKeyword);
@@ -351,10 +415,17 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
                 ret.push(Keywords::IntoKeyword);
                 sm.reset()
             } else if sm.get_current_state_id() == generate_state {
+                println!("generate State detected");
                 ret.push(Keywords::GenerateKeyword);
                 sm.reset();
             } else if sm.get_current_state_id() == setup_state {
                 ret.push(Keywords::SetupKeyword);
+                sm.reset();
+            } else if sm.get_current_state_id() == start_state{
+                ret.push(Keywords::StartKeyword);
+                sm.reset();
+            } else if sm.get_current_state_id() == stop_state{
+                ret.push(Keywords::StopKeyword);
                 sm.reset();
             } else if sm.get_current_state_id() == json_string_end {
                 let json = sm.get_buffer().into_iter().collect();
@@ -365,9 +436,18 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
                 ret.push(Keywords::String(s));
                 sm.reset()
             } else if sm.get_current_state_id() == command_end {
+                sm.reset();
                 break;
             } else if sm.get_current_state_id() == record_state {
                 ret.push(Keywords::RecordKeyword);
+                sm.reset();
+            } else if sm.get_current_state_id() == number_end{
+                let mut b = sm.get_buffer();
+                b.pop();//last element is not a number which leads to a failure
+                let s:String = b.into_iter().collect();
+                println!("number:{}",s);
+                let int = s.parse::<i32>().unwrap();
+                ret.push(Keywords::Number(int));
                 sm.reset();
             }
         }
@@ -384,7 +464,7 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     use std::result;
 
     use super::{parse, parseToken, Keywords};
-    use crate::message_parser::commands::Commands::{Open,Convert,ConvertOptions,Close,GenerateSetup};
+    use crate::message_parser::commands::Commands::{Open,Convert,ConvertOptions,Close,GenerateSetup,RecordStart,RecordStop,RecordOptions};
     /*
     ConvertKeyword,
     OptionKeyword,
@@ -561,7 +641,7 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
         if let Ok(res) = result {
             let first_into = res.get(0);
             if let Some(first) = first_into{
-                if let Keywords::GenerateKeyword = first{
+                if let Keywords::RecordKeyword = first{
                 } else {
                     assert!(false,"wrong Keyword found")
                 }
@@ -581,7 +661,26 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
         if let Ok(res) = result {
             let first_into = res.get(0);
             if let Some(first) = first_into{
-                if let Keywords::RecordKeyword = first{
+                if let Keywords::GenerateKeyword = first{
+                } else {
+                    assert!(false,"wrong Keyword found")
+                }
+            } else {
+                assert!(false,"none found")
+            }
+        } else if let Err(error) = result {
+            assert!(false,"Keyword not found {}",error)
+        }
+    }
+
+    #[test]
+    fn generate_setup_test(){
+        let chars: std::str::Chars<'_> = "SETUP".chars();
+        let result = parseToken(chars);
+        if let Ok(res) = result {
+            let first_into = res.get(0);
+            if let Some(first) = first_into{
+                if let Keywords::SetupKeyword = first{
                 } else {
                     assert!(false,"wrong Keyword found")
                 }
@@ -599,7 +698,8 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
     DRAW DIAGRAM WITH x=[xproperty] AND y=[yproperty[|color],...] WHERE
     GET POINTS WITH x=[xproperty] AND y=[yproperty[|color],...] WHERE
     CLOSE [file]
-    RECORD string
+    RECORD START string [options]
+    RECORD STOP string
     RECORD OPTIONS
     GENERATE SETUP [GAME] [CAR] [TRACK] [OPTIONS]
     */
@@ -689,21 +789,74 @@ fn parseToken(command_chars:Chars)->Result<Vec<Keywords>,String>{
 
     #[test]
     fn generate_setups_test_1(){
-        let result = parse("GENERATE SETUP ACC AudiR8Evo2 Nürburgring 12;");
+        let result = parse("GENERATE SETUP \"ACC\" \"AudiR8Evo2\" \"Nuerburgring\" 12;");
         match result{
             Ok(command) => {
                 match command {
                     GenerateSetup(generate_setup_params) => {
                         assert_eq!(generate_setup_params.game,"ACC");
                         assert_eq!(generate_setup_params.car,"AudiR8Evo2");
-                        assert_eq!(generate_setup_params.track,"Nürburgring");
+                        assert_eq!(generate_setup_params.track,"Nuerburgring");
                         assert_eq!(generate_setup_params.number_setup,12);
                         //assert!(true)
                     },
                     _ => assert!(false,"wrong command returned")
                 }
             },
-            _ => assert!(false,"Error at Function")
+            Err(error) => assert!(false,"Error at Function:{}",error)
+        }
+    }
+
+    #[test]
+    fn record_start_test_1(){
+        let result = parse("RECORD START \"ACC\";");
+        match result{
+            Ok(command) => {
+                match command {
+                    RecordStart(generate_setup_params) => {
+                        assert_eq!(generate_setup_params.game,"ACC");
+                        //assert!(true)
+                    },
+                    _ => assert!(false,"wrong command returned")
+                }
+            },
+            Err(error) => assert!(false,"Error at Function:{}",error)
+        }
+    }
+
+    #[test]
+    fn record_stop_test_1(){
+        let result: Result<super::commands::Commands, String> = parse("RECORD STOP \"ACC\";");
+        match result{
+            Ok(command) => {
+                match command {
+                    RecordStart(generate_setup_params) => {
+                        assert_eq!(generate_setup_params.game,"ACC");
+                        //assert!(true)
+                    },
+                    _ => assert!(false,"wrong command returned")
+                }
+            },
+            Err(error) => assert!(false,"Error at Function:{}",error)
+        }
+    }
+
+    #[test]
+    fn record_options_test_1(){
+        let result = parse("RECORD OPTIONS;");
+        match result{
+            Ok(command) => {
+                match command {
+                    RecordOptions => {
+                        assert!(true)
+                    },
+                    _ => assert!(false,"wrong command returned")
+                }
+            },
+            Err(error) => assert!(false,"Error at Function:{}",error)
         }
     }
  }
+
+    
+ 
