@@ -167,16 +167,6 @@ pub fn create_test_file(output:&String,laps:i32,data_per_lap:i32){
         let backup = sqlite3_sys::sqlite3_backup_init(target_db.as_raw(), main, db.as_raw(), main);
         sqlite3_sys::sqlite3_backup_step(backup, -1);
         sqlite3_sys::sqlite3_backup_finish(backup);
-        /*
-        loop {
-            rc = sqlite3_sys::sqlite3_backup_step(backup, 100);
-            if rc == sqlite3_sys::SQLITE_OK || rc == sqlite3_sys::SQLITE_BUSY || rc == sqlite3_sys::SQLITE_LOCKED {
-                sqlite3_sys::sqlite3_sleep(250);
-            } else {
-                break;
-            }
-        }
-         */
     }
     
     

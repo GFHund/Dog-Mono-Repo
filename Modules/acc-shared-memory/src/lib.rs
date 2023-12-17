@@ -1,6 +1,6 @@
 use win_sys::{FileMapping,ViewOfFile,CreateFileMapping,MapViewOfFile,CloseHandle,INVALID_HANDLE_VALUE,PAGE_READWRITE,FILE_MAP_READ };
-use std::error::Error;
-//use crate::windo::core::error;
+
+
 use std::mem::size_of;
 use std::convert::TryFrom;
 mod shared_file_out;
@@ -16,16 +16,18 @@ pub struct AccSharedMemory{
     acc_static:Option<SMElement>
 }
 impl AccSharedMemory{
-    pub fn get_physics(&mut self)->SPageFilePhysics{
+    pub fn get_physics(&mut self)->Option<SPageFilePhysics>{
         if let None = self.acc_physics{
-            //Fehler
+            return None;
         }
         let acc_physics = self.acc_physics.as_ref().unwrap();
         //let ret:Result<SPageFilePhysics,_> = acc_physics.view_of_file.try_into();
+        
         unsafe{
             let a = acc_physics.view_of_file.as_mut_ptr() as *const SPageFilePhysics;
+            print!("Gear:{}\r",(*a).gear);
             let b = (*a).clone();
-            return b;
+            return Some(b);
         };  
     }
     pub fn get_graphics(&mut self) -> SPageFileGraphic{
@@ -40,26 +42,26 @@ impl AccSharedMemory{
         };
     }
     pub fn dismiss(&mut self)->Result<(),String>{
-        let mut bError = false;
+        let mut b_error = false;
         if let Some(physics) = &mut self.acc_physics{
             let error = CloseHandle(physics.map_file.as_handle());
-            if let Err(e) = error{
-                bError = true;
+            if let Err(_e) = error{
+                b_error = true;
             }
         }
         if let Some(graphics) = &mut self.acc_graphics{
             let error = CloseHandle(graphics.map_file.as_handle());
-            if let Err(e) = error{
-                bError = true;
+            if let Err(_e) = error{
+                b_error = true;
             }
         }
         if let Some(acc_static) = &mut self.acc_static{
             let error = CloseHandle(acc_static.map_file.as_handle());
-            if let Err(e) = error{
-                bError = true;
+            if let Err(_e) = error{
+                b_error = true;
             }
         }
-        if bError{
+        if b_error{
             return Err("Error at Close Handle".to_string());
         }
         Ok(())
@@ -99,16 +101,19 @@ pub fn init(init_physics:bool,init_graphics:bool,init_static:bool)->Result<AccSh
     Ok(ret)
 }
 fn init_shared_memory(sz_name:String)->Result<SMElement,String>{
-    //let sz_name = "Local\\acpmf_physics".to_string();
+    let sz_name2 = sz_name.clone();
     let size = size_of::<SPageFilePhysics>();
     let size_int = u32::try_from(size).unwrap();
+    println!("sz_name:{}",sz_name);
+    println!("size:{}",size);
+    println!("size_int:{}",size_int);
     let create_result = CreateFileMapping(INVALID_HANDLE_VALUE, 
         None, 
         PAGE_READWRITE, 
         0, 
         size_int, 
         sz_name);
-    if let Err(error) = create_result{
+    if let Err(_error) = create_result{
         return Err("CreateFileMapping failed".to_string());
     }
     let create_file_mapping = create_result.unwrap();
@@ -118,10 +123,25 @@ fn init_shared_memory(sz_name:String)->Result<SMElement,String>{
         0, 
         0, 
         size);
-    if let Err(error) = map_file_buffer_result{
+    if let Err(_error) = map_file_buffer_result{
         return Err("MapViewOfFile failed".to_string());
     }
     let map_file_buffer = map_file_buffer_result.unwrap();
+    print!("sz_name2: {}\n",sz_name2);
+    if sz_name2.contains("physics"){
+        print!("drin \n");
+        //let acc_physics = self.acc_physics.as_ref().unwrap();
+        //let ret:Result<SPageFilePhysics,_> = acc_physics.view_of_file.try_into();
+        
+        unsafe{
+            print!("1\n");
+            let a = (map_file_buffer.as_mut_ptr()) as *mut SPageFilePhysics;
+            print!("2\n");
+            print!("packetID:{}\n",(*a).packet_id);
+            print!("Gear:{}\n",(*a).gear);
+            print!("3\n");
+        };  
+    }
     let ret = SMElement{map_file:create_file_mapping,view_of_file:map_file_buffer};
     return Ok(ret);
 }

@@ -1,3 +1,5 @@
+
+
 #[derive(Clone)]
 pub struct SPageFilePhysics{
     pub packet_id:i32,
@@ -37,6 +39,7 @@ pub struct SPageFilePhysics{
     pub ballast:f32,
     pub air_density:f32,
     pub air_temp:f32,
+    pub road_temp:f32,
     pub local_angular_vel:[f32;3],
     pub final_ff:f32,
     pub performance_meter:f32,

@@ -12,3 +12,4 @@ sqlite3-sys = "0.15.2"
 acc-shared-memory = {path = "../acc-shared-memory"}
 fastrand = "2.0.1"
 libc = "0.2.149"
+ctrlc = "3.4.1"
